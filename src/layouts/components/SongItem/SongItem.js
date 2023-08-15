@@ -32,10 +32,12 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { TfiComment } from 'react-icons/tfi';
 import { RiShareForwardLine } from 'react-icons/ri';
 import { BsDownload } from 'react-icons/bs';
+import useViewport from '~/hooks/useViewport';
 
 const cx = classNames.bind(styles);
 
 function SongItem({ songList, title, myPlaylist, myMusic }) {
+    const viewPort = useViewport();
     const dispatch = useDispatch();
     const songState = useSelector((state) => state.song);
     const authState = useSelector((state) => state.auth);
@@ -94,7 +96,7 @@ function SongItem({ songList, title, myPlaylist, myMusic }) {
                     lyricPromise
                         .then((lyric) => {
                             const array = lyric.data.split('\n');
-                            const array1 = array.map((line) => {
+                            const array1 = array.forEach((line) => {
                                 return {
                                     startTime: convertTimeToNumber(line.slice(1, 9)),
                                     words: line.slice(10, line.length),
@@ -273,11 +275,11 @@ function SongItem({ songList, title, myPlaylist, myMusic }) {
     const [id, setId] = useState(null);
 
     return (
-        <div className={cx('content')}>
+        <div className={cx('content', viewPort.width < 740 && 'mobile')}>
             {songList &&
                 songList.map((item, index) => {
                     if (myMusic && authState?.library.find((song) => song.encodeId === item.encodeId))
-                        return <div></div>;
+                        return <div key={index}></div>;
                     return (
                         <div
                             key={index}
@@ -331,8 +333,8 @@ function SongItem({ songList, title, myPlaylist, myMusic }) {
                                     </div>
                                 </div>
                             </div>
-                            <div className={cx('album')}>
-                                <p> {item.album && item.album.title}</p>
+                            <div className={cx('album', viewPort.width < 740 && 'mobile')}>
+                                <p className={cx('title')}> {item.album && item.album.title}</p>
                                 <div className={cx('action')}>
                                     <Tippy content="Phát cùng lời bài hát">
                                         <div className={cx('action-wrapper')} onClick={() => handlePlayWithLyric(item)}>

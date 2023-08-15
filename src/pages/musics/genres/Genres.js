@@ -6,12 +6,14 @@ import { useEffect } from 'react';
 import { setGenres } from '~/slices/songSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '~/layouts/components/Loading';
+import useViewport from '~/hooks/useViewport';
 
 const cx = classNames.bind(styles);
 
 function Genres() {
     const genres = useSelector((state) => state.song.genres);
     const dispatch = useDispatch();
+    const isMobile = useViewport().width < 740;
     useEffect(() => {
         if (!genres) {
             musicApi.getGenres().then((res) => {
@@ -22,7 +24,7 @@ function Genres() {
     }, []);
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', isMobile && 'mobile')}>
             {genres ? (
                 <GenresConcept title={'Tâm trạng và hoạt động'} data={genres.topic} genres={true} />
             ) : (

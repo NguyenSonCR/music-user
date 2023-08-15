@@ -5,6 +5,7 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import PlaylistItem from '~/pages/musics/playlist/PlaylistItem';
+import SongItemMobile from '~/layouts/components/SongItemMobile';
 import { Link } from 'react-router-dom';
 import useViewport from '~/hooks/useViewport';
 import { HiOutlineChevronRight } from 'react-icons/hi';
@@ -56,20 +57,28 @@ function NewSongConcept({ link }) {
                             </ul>
                         </div>
                     </div>
-                    <div className={cx(['row', 'sm-gutter'], 'container')}>
+                    <div className={cx('container')}>
                         <div className={cx(['col', 'l-4', 'm-6', 'c-12'])}>
-                            <PlaylistItem
+                            <SongItemMobile
+                                noScroll={true}
+                                songList={songs.slice(0, 4)}
+                                playlist={songs}
+                                title={'Mới phát hành'}
+                            />
+                            {/* <PlaylistItem
                                 songList={songs.slice(0, 4)}
                                 playlist={songs}
                                 scroll={true}
                                 title={'Mới phát hành'}
-                            />
+                            /> */}
                         </div>
                         <div className={cx(['col', 'l-4', 'm-6', 'c-12'])}>
-                            <PlaylistItem songList={songs.slice(4, 8)} playlist={songs} scroll={true} />
+                            <SongItemMobile noScroll={true} songList={songs.slice(4, 8)} playlist={songs} />
+                            {/* <PlaylistItem songList={songs.slice(4, 8)} playlist={songs} scroll={true} /> */}
                         </div>
                         <div className={cx(['col', 'l-4', 'm-6', 'c-12'])}>
-                            <PlaylistItem songList={songs.slice(8, 12)} playlist={songs} scroll={true} />
+                            <SongItemMobile noScroll={true} songList={songs.slice(8, 12)} playlist={songs} />
+                            {/* <PlaylistItem songList={songs.slice(8, 12)} playlist={songs} scroll={true} /> */}
                         </div>
                     </div>
                 </div>

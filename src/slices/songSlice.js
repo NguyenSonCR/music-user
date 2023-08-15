@@ -131,10 +131,20 @@ export const songSlice = createSlice({
         addSongPlaylist: (state, action) => {
             state.myPlaylist.album = state.myPlaylist.album.map((item) => {
                 if (item._id === action.payload.playlistId) {
-                    return {
-                        ...item,
-                        song: item.song.concat(action.payload.song),
-                    };
+                    if (
+                        item.song.length > 0 &&
+                        item.song.find((songPlaylist) => songPlaylist.encodeId === action.payload.song.encodeId)
+                    ) {
+                        return {
+                            ...item,
+                            song: item.song,
+                        };
+                    } else {
+                        return {
+                            ...item,
+                            song: item.song.concat(action.payload.song),
+                        };
+                    }
                 } else {
                     return item;
                 }

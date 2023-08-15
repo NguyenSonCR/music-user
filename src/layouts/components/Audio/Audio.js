@@ -434,7 +434,7 @@ function AudioSong({ container }) {
             initialY = e.clientY - yOffset.current;
         }
 
-        if (e.target === smallAudioRef?.current) {
+        if (smallAudioRef?.current?.contains(e.target)) {
             active = true;
         }
     }

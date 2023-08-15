@@ -13,11 +13,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '~/slices/authSlice';
 import routes from '~/config/routes';
 import { addToast } from '~/slices/toastSlice';
+import useViewport from '~/hooks/useViewport';
 
 const cx = classNames.bind(styles);
 
 function Register() {
-    const width = window.innerWidth > 0 ? window.innerWidth : window.screen.width;
+    const viewPort = useViewport();
 
     const [formValue, setFormValue] = useState({
         username: '',
@@ -148,7 +149,7 @@ function Register() {
         <div className={cx('wrapper', ['grid'])}>
             <div className={cx('header')}>
                 <div className={cx('inner')}>
-                    <div className={cx('logo-wrapper')}>
+                    <div className={cx('logo-wrapper', viewPort.width < 740 && 'mobile')}>
                         <div className={cx('logo-wrapper-link')}>
                             <Link className={cx('logo')} to={config.routes.home}>
                                 <img src={images.logo} alt="logo" className={cx('logo-img')}></img>
@@ -157,14 +158,12 @@ function Register() {
                                 Noloce
                             </Link>
                         </div>
-                        <Link to={config.routes.login} className={cx('logo-text')}>
-                            Đăng ký
-                        </Link>
+                        <p className={cx('logo-text')}>Đăng ký</p>
                     </div>
                 </div>
             </div>
 
-            <div className={cx('content')}>
+            <div className={cx('content', viewPort.width < 740 && 'mobile')}>
                 <div className={cx('form')}>
                     <div className={cx('title')}>
                         <h3> Đăng ký </h3>
@@ -243,20 +242,28 @@ function Register() {
                             </div>
                         </div>
 
-                        <div className={cx('button', width < 740 && 'mobile')}>
+                        <div className={cx('button', viewPort.width < 740 && 'mobile')}>
                             <Button
                                 to={config.routes.login}
-                                className={cx('btn-back', width < 740 && 'mobile')}
+                                className={cx('btn-back', viewPort.width < 740 && 'mobile')}
                                 primary
                             >
                                 Quay lại
                             </Button>
                             {usernameValid && fullNameValid && passwordValid && passwordConfirmValid ? (
-                                <Button type="submit" primary className={cx('btn-back', width < 740 && 'mobile')}>
+                                <Button
+                                    type="submit"
+                                    primary
+                                    className={cx('btn-back', viewPort.width < 740 && 'mobile')}
+                                >
                                     Đăng ký
                                 </Button>
                             ) : (
-                                <Button primary disable className={cx('btn-register', width < 740 && 'mobile')}>
+                                <Button
+                                    primary
+                                    disable
+                                    className={cx('btn-register', viewPort.width < 740 && 'mobile')}
+                                >
                                     Đăng ký
                                 </Button>
                             )}

@@ -3,7 +3,7 @@ import styles from './NewRelease.module.scss';
 import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';
 import SongConcept from '~/layouts/components/SongConcept';
-import SongItem from '~/layouts/components/SongItem';
+import SongItemMobile from '~/layouts/components/SongItemMobile';
 import 'react-loading-skeleton/dist/skeleton.css';
 import Loading from '~/layouts/components/Loading';
 
@@ -50,7 +50,7 @@ function NewRelease() {
                         <Loading single={true} />
                     </div>
                 )}
-                {active === 1 && data && <SongItem songList={data.song} />}
+                {active === 1 && data && <SongItemMobile songList={data.song} />}
                 {active === 2 && data && (
                     <div>
                         <SongConcept data={data.album} title={''} all={false} />

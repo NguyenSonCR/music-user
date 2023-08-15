@@ -14,6 +14,11 @@
     margin-left: -4px;
     margin-right: -4px;
 }
+
+.mobile .row {
+    margin: 0;
+}
+
 .row.no-gutters {
     margin-left: 0;
     margin-right: 0;
@@ -65,7 +70,7 @@
     flex: 0 0 75%;
     max-width: 75%;
 }
-.c-10{
+.c-10 {
     flex: 0 0 83.33333%;
     max-width: 83.33333%;
 }
@@ -94,7 +99,7 @@
     margin-left: 41.66667%;
 }
 .c-o-6 {
-   margin-left: 50%;
+    margin-left: 50%;
 }
 .c-o-7 {
     margin-left: 58.33333%;
@@ -103,15 +108,14 @@
     margin-left: 66.66667%;
 }
 .c-o-9 {
-   margin-left: 75%;
+    margin-left: 75%;
 }
-.c-o-10{
+.c-o-10 {
     margin-left: 83.33333%;
 }
 .c-o-11 {
     margin-left: 91.66667%;
 }
-
 
 /* tablet */
 
@@ -177,7 +181,7 @@
         flex: 0 0 75%;
         max-width: 75%;
     }
-    .m-10{
+    .m-10 {
         flex: 0 0 83.33333%;
         max-width: 83.33333%;
     }
@@ -206,7 +210,7 @@
         margin-left: 41.66667%;
     }
     .m-o-6 {
-       margin-left: 50%;
+        margin-left: 50%;
     }
     .m-o-7 {
         margin-left: 58.33333%;
@@ -215,16 +219,15 @@
         margin-left: 66.66667%;
     }
     .m-o-9 {
-       margin-left: 75%;
+        margin-left: 75%;
     }
-    .m-o-10{
+    .m-o-10 {
         margin-left: 83.33333%;
     }
     .m-o-11 {
         margin-left: 91.66667%;
     }
 }
-
 
 @media (min-width: 1113px) {
     .row {
@@ -301,7 +304,7 @@
         flex: 0 0 75%;
         max-width: 75%;
     }
-    .l-10{
+    .l-10 {
         flex: 0 0 83.33333%;
         max-width: 83.33333%;
     }
@@ -330,7 +333,7 @@
         margin-left: 41.66667%;
     }
     .l-o-6 {
-       margin-left: 50%;
+        margin-left: 50%;
     }
     .l-o-7 {
         margin-left: 58.33333%;
@@ -339,9 +342,9 @@
         margin-left: 66.66667%;
     }
     .l-o-9 {
-       margin-left: 75%;
+        margin-left: 75%;
     }
-    .l-o-10{
+    .l-o-10 {
         margin-left: 83.33333%;
     }
     .l-o-11 {
@@ -463,7 +466,7 @@
         margin-left: 41.66667%;
     }
     .wide .l-o-6 {
-       margin-left: 50%;
+        margin-left: 50%;
     }
     .wide .l-o-7 {
         margin-left: 58.33333%;
@@ -472,9 +475,9 @@
         margin-left: 66.66667%;
     }
     .wide .l-o-9 {
-       margin-left: 75%;
+        margin-left: 75%;
     }
-    .wide .l-o-10{
+    .wide .l-o-10 {
         margin-left: 83.33333%;
     }
     .wide .l-o-11 {

@@ -14,15 +14,18 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import routes from '~/config/routes';
 import { addToast } from '~/slices/toastSlice';
+import useViewport from '~/hooks/useViewport';
 
 const cx = classNames.bind(styles);
 function Login() {
-    // const width = window.innerWidth > 0 ? window.innerWidth : window.screen.width;
+    const viewPort = useViewport();
 
     const [formValue, setFormValue] = useState({
         username: '',
         password: '',
     });
+
+    const dispatch = useDispatch();
 
     const [formValid, setFormValid] = useState({
         usernameBlur: null,
@@ -130,7 +133,6 @@ function Login() {
         }
     };
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const toastState = useSelector((state) => state.toast);
     const login = async (event) => {
@@ -143,7 +145,7 @@ function Login() {
                 const res = await authApi.loadUser();
                 if (res.success) {
                     dispatch(setAuth({ user: res.user, isAuthenticated: true }));
-                    navigate(routes.home);
+                    navigate(routes.myMusic, { replace: true });
                     dispatch(
                         addToast({
                             id: toastState.toastList.length + 1,
@@ -170,7 +172,7 @@ function Login() {
         <div className={cx('wrapper', ['grid'])}>
             <div className={cx('header')}>
                 <div className={cx('inner')}>
-                    <div className={cx('logo-wrapper')}>
+                    <div className={cx('logo-wrapper', viewPort.width < 740 && 'mobile')}>
                         <div className={cx('logo-wrapper-link')}>
                             <Link className={cx('logo')} to={config.routes.home}>
                                 <img src={images.logo} alt="logo" className={cx('logo-img')}></img>
@@ -179,13 +181,11 @@ function Login() {
                                 Noloce
                             </Link>
                         </div>
-                        <Link to={config.routes.register} className={cx('logo-text')}>
-                            Đăng nhập
-                        </Link>
+                        <p className={cx('logo-text')}>Đăng nhập</p>
                     </div>
                 </div>
             </div>
-            <div className={cx('content')}>
+            <div className={cx('content', viewPort.width < 740 && 'mobile')}>
                 <div className={cx('form')}>
                     <div className={cx('title')}>
                         <h3 className={cx('title-text')}> Chào mừng bạn đến với Noloce </h3>
@@ -193,6 +193,7 @@ function Login() {
                     <form className={cx('form-content')} onSubmit={login} name="form-login">
                         <div className={cx('form-group')}>
                             <input
+                                autoComplete={'off'}
                                 value={username}
                                 type={'text'}
                                 spellCheck={false}
@@ -209,7 +210,7 @@ function Login() {
                         <div className={cx('form-group')}>
                             <div className={cx('form-group-password')}>
                                 <input
-                                    autoComplete="true"
+                                    autoComplete={'off'}
                                     className={cx('password', passwordBlur && !passwordValid && 'error')}
                                     value={password}
                                     type={show.type}

@@ -65,6 +65,7 @@
     border-radius: 4px;
     display: flex;
     align-items: center;
+    justify-content: center;
     &:hover {
         .overlay {
             display: flex;
@@ -77,7 +78,11 @@
     cursor: pointer;
 }
 
+.mobile .img-content {
+    width: 80%;
+}
 .img-content {
+    border-radius: 8px;
     width: 100%;
     object-fit: cover;
     transition: transform 0.7s;

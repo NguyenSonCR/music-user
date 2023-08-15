@@ -1,4 +1,5 @@
 import PlaylistItem from '~/pages/musics/playlist/PlaylistItem/PlaylistItem';
+import SongItemMobile from '~/layouts/components/SongItemMobile';
 import styles from './NewSongRelease.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,12 +25,7 @@ function NewSongRelease({ concept, link, all }) {
                     <div>
                         <div className={cx(['row', 'sm-gutter'], 'container')}>
                             <div className={cx(['col', 'l-12', 'c-12'])}>
-                                <PlaylistItem
-                                    songList={concept.items}
-                                    playlist={concept.items}
-                                    title={'Mới phát hành'}
-                                    scroll={true}
-                                />
+                                <SongItemMobile noScroll={true} songList={concept.items} title={'Mới phát hành'} />
                             </div>
                         </div>
                     </div>

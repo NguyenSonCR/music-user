@@ -134,6 +134,9 @@ function Search({ visible }) {
                                                     <Link
                                                         to={`/music/artist/${searchResult.artists[0].alias}`}
                                                         className={cx('artist')}
+                                                        onClick={() => {
+                                                            setShow(false);
+                                                        }}
                                                     >
                                                         <img
                                                             className={cx('artist-img')}
@@ -150,6 +153,9 @@ function Search({ visible }) {
                                                     <Link
                                                         to={`/music/album/${searchResult.playlists[0].encodeId}`}
                                                         className={cx('playlist')}
+                                                        onClick={() => {
+                                                            setShow(false);
+                                                        }}
                                                     >
                                                         <img
                                                             alt=""
@@ -172,7 +178,13 @@ function Search({ visible }) {
                                         )}
                                     </div>
                                     <div className={cx('footer')}>
-                                        <Link to={config.routes.searchMusic} className={cx('footer-link')}>
+                                        <Link
+                                            to={config.routes.searchMusic}
+                                            className={cx('footer-link')}
+                                            onClick={() => {
+                                                setShow(false);
+                                            }}
+                                        >
                                             Xem tất cả
                                         </Link>
                                     </div>
@@ -183,6 +195,7 @@ function Search({ visible }) {
                 >
                     <div className={cx('wrapper')}>
                         <input
+                            autoComplete="off"
                             name="search"
                             ref={inputRef}
                             className={cx('input')}

@@ -10,8 +10,6 @@ import NewSongConcept from '~/layouts/components/NewSongConcept';
 import NewSongRelease from '~/layouts/components/NewSongRelease';
 import config from '~/config';
 import useViewport from '~/hooks/useViewport';
-import images from '~/assets/img';
-import { ReactComponent as IconKinds } from '~/assets/icon/kinds.svg';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -136,52 +134,9 @@ function HomeMusic() {
                             <div className={cx(['col', 'l-4', 'm-4', 'c-12'])}>
                                 <div className={cx('loading')} style={{ animation: 'loading 2s infinite' }}></div>
                             </div>
-                            <div className={cx(['col', 'l-4', 'm-4'])}>
-                                <div className={cx('loading')} style={{ animation: 'loading 2s infinite' }}></div>
-                            </div>
-                            <div className={cx(['col', 'l-4', 'm-4'])}>
-                                <div className={cx('loading')} style={{ animation: 'loading 2s infinite' }}></div>
-                            </div>
                         </div>
                     )}
-                    <div className={cx('mobile-navigate')}>
-                        <div
-                            className={cx('navigate-item')}
-                            onClick={() => {
-                                navigate(config.routes.myMusic);
-                            }}
-                        >
-                            <img src={images.musicUser} alt="" className={cx('navigate-img')}></img>
-                            <p className={cx('navigate-text')}>Cá nhân</p>
-                        </div>
-                        <div
-                            className={cx('navigate-item')}
-                            onClick={() => {
-                                navigate(config.routes.music);
-                            }}
-                        >
-                            <img src={images.cd} alt="" className={cx('navigate-img')}></img>
-                            <p className={cx('navigate-text')}>Khám phá</p>
-                        </div>
-                        <div
-                            className={cx('navigate-item')}
-                            onClick={() => {
-                                navigate(config.routes.top100);
-                            }}
-                        >
-                            <img src={images.star} alt="" className={cx('navigate-img')}></img>
-                            <p className={cx('navigate-text')}>Top 100</p>
-                        </div>
-                        <div
-                            className={cx('navigate-item')}
-                            onClick={() => {
-                                navigate(config.routes.genresMusic);
-                            }}
-                        >
-                            <IconKinds className={cx('navigate-img')} />
-                            <p className={cx('navigate-text')}>Thể loại</p>
-                        </div>
-                    </div>
+
                     <div>
                         {songState.homeMusic ? (
                             songState.homeMusic.map((concept, index) => {
@@ -235,7 +190,7 @@ function HomeMusic() {
             <div className={cx('wrapper')}>
                 <div className={cx(['swiper-container'])}>
                     {mobileSlider && mobileSlider.length > 0 ? (
-                        <div className="slider">
+                        <div className="slider-show">
                             <div className="button-prev">
                                 <BsChevronLeft className={cx('btn-icon')} />
                             </div>

@@ -46,7 +46,7 @@ function Artist() {
                                     {section.items.map((item, index) => (
                                         <Link
                                             key={index}
-                                            className={cx('tab2-item', ['col', 'l-2-4'])}
+                                            className={cx('tab2-item', ['col', 'l-2-4', 'm-4', 'c-6'])}
                                             to={`/music/artist/${item.alias}`}
                                         >
                                             <div className={cx('album-img')}>

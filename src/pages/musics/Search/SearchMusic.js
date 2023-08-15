@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import SongItem from '~/layouts/components/SongItem';
+import SongItemMobile from '~/layouts/components/SongItemMobile';
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 import SongConcept from '~/layouts/components/SongConcept';
@@ -15,7 +15,7 @@ function SearchMusic() {
     const tab1 = (
         <div className={cx('tab1')}>
             <p className={cx('tab1-text')}>Bài hát</p>
-            {songState.searchResult && <SongItem songList={songState.searchResult.songs} />}
+            {songState.searchResult && <SongItemMobile songList={songState.searchResult.songs} />}
         </div>
     );
 
@@ -30,7 +30,11 @@ function SearchMusic() {
             <div className={cx('title')}>Nghệ sĩ</div>
             <div className={cx(['row'], 'tab3-content')}>
                 {songState?.searchResult?.artists.map((item, index) => (
-                    <Link key={index} className={cx('tab2-item', ['col', 'l-2-4'])} to={`/music/artist/${item.alias}`}>
+                    <Link
+                        key={index}
+                        className={cx('tab2-item', ['col', 'l-2-4', 'm-4', 'c-6'])}
+                        to={`/music/artist/${item.alias}`}
+                    >
                         <div className={cx('album-img')}>
                             <img className={cx('item-img')} src={item.thumbnailM} alt=""></img>
                         </div>

@@ -1,6 +1,6 @@
 import styles from './MyPlaylist.module.scss';
 import classNames from 'classnames/bind';
-import SongItem from '~/layouts/components/SongItem';
+import SongItemMobile from '~/layouts/components/SongItemMobile';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import Loading from '~/layouts/components/Loading';
@@ -15,12 +15,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { addToast } from '~/slices/toastSlice';
 import { deletePlaylist, setSingleMyPlaylist } from '~/slices/songSlice';
+import useViewport from '~/hooks/useViewport';
 
 const cx = classNames.bind(styles);
 function MyPlaylist() {
     const { slug } = useParams();
     const songState = useSelector((state) => state.song);
     const playlistChoose = songState.singleMyPlaylist;
+    const width = useViewport().width;
 
     const dispatch = useDispatch();
     const toastState = useSelector((state) => state.toast);
@@ -68,8 +70,8 @@ function MyPlaylist() {
     let body = <Loading />;
     if (playlistChoose) {
         body = (
-            <div className={cx('wrapper', ['row'])}>
-                <div className={cx(['col', 'l-3', 'm-3'])}>
+            <div className={cx('wrapper', ['row'], width < 740 && 'mobile')}>
+                <div className={cx(['col', 'l-3', 'm-3', 'c-12'])}>
                     <div className={cx('song-img')}>
                         <img alt="" src={images.song} className={cx('img-content')}></img>
                         <div className={cx('overlay')}>
@@ -107,12 +109,12 @@ function MyPlaylist() {
                         </div>
                     </div>
                 </div>
-                <div className={cx(['col', 'l-9', 'm-9'])}>
+                <div className={cx(['col', 'l-9', 'm-9', 'c-12'])}>
                     <div className={cx('header')}>
                         <p className={cx('header-text')}>Danh sách bài hát</p>
                     </div>
                     {playlistChoose.song.length > 0 ? (
-                        <SongItem songList={playlistChoose.song} title={playlistChoose.name} myPlaylist />
+                        <SongItemMobile songList={playlistChoose.song} title={playlistChoose.name} myPlaylist />
                     ) : (
                         <div>
                             <p className={cx('no-song-text')}>Chưa có bài hát nào trong playlist</p>

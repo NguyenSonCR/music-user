@@ -5,14 +5,15 @@
     line-height: 3.4rem;
 }
 
+.line-text.mobile {
+    text-align: center;
+}
+
 .active {
     color: var(--primary-bold);
 }
 
 .wrapper {
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
     height: 100%;
     width: 100%;
     overflow: auto;

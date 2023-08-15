@@ -8,6 +8,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import SongItem from '~/layouts/components/SongItem';
+import SongItemMobile from '~/layouts/components/SongItemMobile';
 import { setAlbum } from '~/slices/songSlice';
 import musicApi from '~/api/music/musicApi';
 import useViewport from '~/hooks/useViewport';
@@ -54,8 +55,6 @@ function Album() {
         const value = Math.round(Number(minutes) * 60 * 1000 + Math.round(Number(seconds) * 1000));
         return value;
     };
-
-    console.log(songState);
 
     const handleSelectSong = (item) => {
         console.log(1);
@@ -129,7 +128,7 @@ function Album() {
 
     if (loading) {
         body = (
-            <div className={cx(['row', 'wrapper-loading'])}>
+            <div className={cx(['row'], 'wrapper-loading', isMobile && 'mobile')}>
                 {!isMobile ? (
                     <div className={cx(['col', 'l-4', 'm-6', 'c-12'])}>
                         <div className={cx('center')}>
@@ -146,8 +145,8 @@ function Album() {
                     </div>
                 )}
                 <div className={cx(['col', 'l-8', 'm-6', 'c-12'])}>
-                    <p className={cx('single-loading')} style={{ animation: 'loading 2s infinite' }}></p>
-                    <p className={cx('single-loading')} style={{ animation: 'loading 2s infinite' }}></p>
+                    <p className={cx('single-loading-100')} style={{ animation: 'loading 2s infinite' }}></p>
+                    <p className={cx('single-loading-100')} style={{ animation: 'loading 2s infinite' }}></p>
                     <div className={cx('loading-song')}>
                         <div className={cx('loading-song-img')}></div>
                         <div className={cx('loading-song-content')}>
@@ -218,55 +217,53 @@ function Album() {
         if (isMobile) {
             body = (
                 <div className={cx('mobile')}>
-                    <div className={cx('wrapper', ['row', 'sm-gutter'])}>
-                        <div className={cx(['col', 'l-3', 'm-6', 'c-12'])}>
-                            <div className={cx('song-list')}>
-                                <div className={cx('song-img')}>
-                                    <img
-                                        alt=""
-                                        src={songState.album.thumbnailM || songState.album.thumbnail}
-                                        className={cx('img-content')}
-                                    ></img>
-                                    <div className={cx('overlay')}>
-                                        <div className={cx('overplay-wrapper')}>
-                                            {!songState.isPlay ? (
-                                                <FontAwesomeIcon
-                                                    className={cx('overlay-icon')}
-                                                    icon={faPlay}
-                                                    onClick={() => {
-                                                        if (songState.song) {
-                                                            dispatch(play());
-                                                        } else {
-                                                            handleSelectSong(songState.album.song.items[0]);
-                                                        }
-                                                    }}
-                                                />
-                                            ) : (
-                                                <div
-                                                    className={cx('overplay-wrapper')}
-                                                    onClick={() => {
-                                                        dispatch(pause());
-                                                    }}
-                                                >
-                                                    <FontAwesomeIcon icon={faPause} className={cx('overlay-icon')} />
-                                                </div>
-                                            )}
-                                        </div>
+                    <div className={cx('wrapper')}>
+                        <div className={cx('song-list')}>
+                            <div className={cx('song-img')}>
+                                <img
+                                    alt=""
+                                    src={songState.album.thumbnailM || songState.album.thumbnail}
+                                    className={cx('img-content')}
+                                ></img>
+                                <div className={cx('overlay')}>
+                                    <div className={cx('overplay-wrapper')}>
+                                        {!songState.isPlay ? (
+                                            <FontAwesomeIcon
+                                                className={cx('overlay-icon')}
+                                                icon={faPlay}
+                                                onClick={() => {
+                                                    if (songState.song) {
+                                                        dispatch(play());
+                                                    } else {
+                                                        handleSelectSong(songState.album.song.items[0]);
+                                                    }
+                                                }}
+                                            />
+                                        ) : (
+                                            <div
+                                                className={cx('overplay-wrapper')}
+                                                onClick={() => {
+                                                    dispatch(pause());
+                                                }}
+                                            >
+                                                <FontAwesomeIcon icon={faPause} className={cx('overlay-icon')} />
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-
-                                <p className={cx('song-name')}>{songState.album.title}</p>
-
-                                <p className={cx('list-author')}>
-                                    {songState.album.artists.map((artist, index) => {
-                                        if (index < songState.album.artists.length - 1) {
-                                            return <span key={index}>{artist.name}, </span>;
-                                        } else {
-                                            return <span key={index}>{artist.name}</span>;
-                                        }
-                                    })}
-                                </p>
                             </div>
+
+                            <p className={cx('song-name')}>{songState.album.title}</p>
+
+                            <p className={cx('list-author')}>
+                                {songState.album.artists.map((artist, index) => {
+                                    if (index < songState.album.artists.length - 1) {
+                                        return <span key={index}>{artist.name}, </span>;
+                                    } else {
+                                        return <span key={index}>{artist.name}</span>;
+                                    }
+                                })}
+                            </p>
                         </div>
                         <div className={cx('content', ['col', 'l-9', 'm-6', 'c-12'])}>
                             <ul className={cx('content-header')}>
@@ -278,13 +275,16 @@ function Album() {
                             <ul className={cx('content-body')}>
                                 <div className={cx('content-body__title')}>
                                     <p className={cx('content-body__item')}>Bài hát</p>
-                                    <div className={cx('album')}>
+                                    {/* <div className={cx('album')}>
                                         <p className={cx('album__item')}>Album</p>
                                         <p className={cx('album__item')}>Thời gian</p>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className={cx('content-body-song')}>
-                                    <SongItem songList={songState.album.song.items} title={songState.album.title} />
+                                    <SongItemMobile
+                                        songList={songState.album.song.items}
+                                        title={songState.album.title}
+                                    />
                                 </div>
                             </ul>
                         </div>

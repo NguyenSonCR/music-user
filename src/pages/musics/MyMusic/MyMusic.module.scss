@@ -1,6 +1,10 @@
 .wrapper {
     margin-bottom: 100px;
-    min-height: 80vh;
+    // min-height: 80vh;
+}
+
+.wrapper.mobile {
+    padding: 0 8px;
 }
 
 // playlist
@@ -8,6 +12,9 @@
     cursor: pointer;
 }
 
+.playlist-content {
+    overflow: hidden;
+}
 .playlist-header {
     display: flex;
     align-items: center;
@@ -225,4 +232,13 @@
     font-size: 1.4rem;
     line-height: 1.6rem;
     color: var(--text-color);
+}
+
+// no song
+.no-song {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }

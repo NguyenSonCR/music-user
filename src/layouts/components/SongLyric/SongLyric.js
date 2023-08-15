@@ -2,12 +2,14 @@ import styles from './SongLyric.module.scss';
 import classNames from 'classnames/bind';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import useViewport from '~/hooks/useViewport';
 
 const cx = classNames.bind(styles);
 function SongLyric({ currentTime, loading }) {
     const [active, setActive] = useState(null);
     const songState = useSelector((state) => state.song);
     const [touch, setTouch] = useState(false);
+    const width = useViewport().width;
 
     // // scroll
     const refs = useRef([]);
@@ -78,7 +80,7 @@ function SongLyric({ currentTime, loading }) {
                             ref={(element) => {
                                 refs.current[index] = element;
                             }}
-                            className={cx('line-text', active === index && 'active')}
+                            className={cx('line-text', active === index && 'active', width < 740 && 'mobile')}
                         >
                             {line.words}
                         </p>

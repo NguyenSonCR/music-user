@@ -6,12 +6,12 @@ import images from '~/assets/img';
 
 const cx = classNames.bind(styles);
 
-function Header({ title, onBack, to }) {
+function Header({ title, to }) {
     return (
         <header className={cx('header')}>
-            <div className={cx('back-btn')} onClick={onBack}>
+            {/* <div className={cx('back-btn')} onClick={onBack}>
                 <img src={images.back} alt="" className={cx('header-img')}></img>
-            </div>
+            </div> */}
             <Link to={to} className={cx('header-title')}>
                 {title}
             </Link>
@@ -21,6 +21,5 @@ function Header({ title, onBack, to }) {
 
 Header.propTypes = {
     title: PropTypes.string.isRequired,
-    onBack: PropTypes.func.isRequired,
 };
 export default Header;

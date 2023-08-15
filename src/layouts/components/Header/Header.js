@@ -6,7 +6,7 @@ import config from '~/config';
 import Search from '../Search';
 import Menu from '~/components/Popper/Menu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSignOut, faStore } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import authApi from '~/api/auth/auth';
@@ -60,37 +60,39 @@ function Header() {
     if (isMobile) {
         body = (
             <div className={cx('wrapper', 'mobile')}>
-                <div className={cx(['grid', 'wide'])}>
-                    <div className={cx(['row'])}>
-                        <div className={cx(['col', 'l-12', 'm-12', 'c-12'])}>
-                            <div className={cx('header')}>
-                                <div className={cx('logo')}>
-                                    <Link className={cx('logo-link')} to={config.routes.home}>
-                                        <img src={images.logo} alt="logo" className={cx('logo-img')}></img>
-                                    </Link>
-                                </div>
-                                <div className={cx('search')}>
-                                    <Search />
-                                </div>
-                                <div className={cx('action')}>
-                                    <div className={cx('notify')}></div>
-                                    {userState.isAuthenticated ? (
-                                        <Menu items={userMenu}>
-                                            <div className={cx('user')}>
-                                                <img src={images.avatar} alt="user" className={cx('user-img')}></img>
-                                                <span className={cx('user-name')}>{userState.user.username}</span>
-                                            </div>
-                                        </Menu>
+                <div className={cx('header')}>
+                    <div className={cx('logo')}>
+                        <Link className={cx('logo-link')} to={config.routes.home}>
+                            <img src={images.logo} alt="logo" className={cx('logo-img')}></img>
+                        </Link>
+                    </div>
+                    <div className={cx('search')}>
+                        <Search />
+                    </div>
+                    <div className={cx('action')}>
+                        <div className={cx('notify')}></div>
+                        {userState.isAuthenticated ? (
+                            <Menu items={userMenu}>
+                                <div className={cx('user')}>
+                                    {userState.user.img ? (
+                                        <img src={userState.user.img} alt="user" className={cx('user-img')}></img>
                                     ) : (
-                                        <div className={cx('authentication')}>
-                                            <Link className={cx('mobile-login')} to={config.routes.login}>
-                                                Đăng nhập
-                                            </Link>
+                                        <div className={cx('user-img-clone')}>
+                                            <span className={cx('user-text')}>
+                                                {userState.user.username.slice(0, 1).toUpperCase()}
+                                            </span>
                                         </div>
                                     )}
+                                    <span className={cx('user-name')}>{userState.user.username}</span>
                                 </div>
+                            </Menu>
+                        ) : (
+                            <div className={cx('authentication')}>
+                                <Link className={cx('mobile-login')} to={config.routes.login}>
+                                    Đăng nhập
+                                </Link>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </div>

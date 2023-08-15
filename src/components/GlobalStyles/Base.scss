@@ -36,11 +36,6 @@ body {
     }
 }
 
-body.model {
-    overflow: hidden;
-    position: fixed;
-}
-
 a[href] {
     text-decoration: none;
 }
@@ -141,7 +136,7 @@ html *::-webkit-scrollbar-track {
 }
 
 // slider
-.slider {
+.slider-show {
     position: relative;
     border-radius: 8px;
     overflow: hidden;
@@ -189,4 +184,53 @@ html *::-webkit-scrollbar-track {
 
 .btn-icon {
     color: var(--text-color);
+}
+
+.slidecontainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    height: 2px;
+    display: flex;
+    align-items: center;
+}
+
+.slider {
+    position: relative;
+    -webkit-appearance: none; /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 2px; /* Specified height */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
+    transition: opacity 0.2s;
+}
+
+.slider-track {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: var(--primary-color);
+    height: 2px;
+}
+
+.slider::-webkit-slider-runnable-track {
+    background: var(--background-color);
+}
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 2px; /* Set a specific slider handle width */
+    height: 2px; /* Slider handle height */
+    background: var(--primary-color); /* Green background */
 }

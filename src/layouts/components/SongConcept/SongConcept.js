@@ -41,38 +41,30 @@ function SongConcept({ title, data, details, all, link }) {
                         </div>
                     )}
                     <div className={cx('content-song')}>
-                        <div className="grid wide">
-                            <div className={cx(['row', 'sm-gutter'])}>
-                                {list &&
-                                    Array.isArray(list) &&
-                                    list.map((item, index) => (
-                                        <div className="col l-2-4 m-4 c-6" key={index}>
-                                            <div
-                                                className={cx('song-list')}
-                                                onClick={() => handleOnclick(item.encodeId)}
-                                            >
-                                                <div className={cx('song-img')}>
-                                                    <img
-                                                        alt=""
-                                                        src={item.thumbnailM || item.thumbnail}
-                                                        className={cx('img-content')}
-                                                    ></img>
-                                                    <div className={cx('overlay')}>
-                                                        <div className={cx('overplay-wrapper')}>
-                                                            <FontAwesomeIcon
-                                                                className={cx('overlay-icon')}
-                                                                icon={faPlay}
-                                                            />
-                                                        </div>
+                        <div className={cx(['row', 'sm-gutter'])}>
+                            {list &&
+                                Array.isArray(list) &&
+                                list.map((item, index) => (
+                                    <div className="col l-2-4 m-4 c-6" key={index}>
+                                        <div className={cx('song-list')} onClick={() => handleOnclick(item.encodeId)}>
+                                            <div className={cx('song-img')}>
+                                                <img
+                                                    alt=""
+                                                    src={item.thumbnailM || item.thumbnail}
+                                                    className={cx('img-content')}
+                                                ></img>
+                                                <div className={cx('overlay')}>
+                                                    <div className={cx('overplay-wrapper')}>
+                                                        <FontAwesomeIcon className={cx('overlay-icon')} icon={faPlay} />
                                                     </div>
                                                 </div>
-
-                                                <p className={cx('song-name')}>{item.title}</p>
-                                                <p className={cx('song-author')}></p>
                                             </div>
+
+                                            <p className={cx('song-name')}>{item.title}</p>
+                                            <p className={cx('song-author')}></p>
                                         </div>
-                                    ))}
-                            </div>
+                                    </div>
+                                ))}
                         </div>
                     </div>
                 </div>
@@ -97,32 +89,30 @@ function SongConcept({ title, data, details, all, link }) {
                     </div>
                 )}
                 <div className={cx('content-song')}>
-                    <div className="grid">
-                        <div className={cx(['row', 'sm-gutter'])}>
-                            {list &&
-                                Array.isArray(list) &&
-                                list.map((item, index) => (
-                                    <div className="col l-2-4 m-4" key={index}>
-                                        <div className={cx('song-list')} onClick={() => handleOnclick(item.encodeId)}>
-                                            <div className={cx('song-img')}>
-                                                <img
-                                                    alt=""
-                                                    src={item.thumbnailM || item.thumbnail}
-                                                    className={cx('img-content')}
-                                                ></img>
-                                                <div className={cx('overlay')}>
-                                                    <div className={cx('overplay-wrapper')}>
-                                                        <FontAwesomeIcon className={cx('overlay-icon')} icon={faPlay} />
-                                                    </div>
+                    <div className={cx(['row', 'sm-gutter'])}>
+                        {list &&
+                            Array.isArray(list) &&
+                            list.map((item, index) => (
+                                <div className="col l-2-4 m-4" key={index}>
+                                    <div className={cx('song-list')} onClick={() => handleOnclick(item.encodeId)}>
+                                        <div className={cx('song-img')}>
+                                            <img
+                                                alt=""
+                                                src={item.thumbnailM || item.thumbnail}
+                                                className={cx('img-content')}
+                                            ></img>
+                                            <div className={cx('overlay')}>
+                                                <div className={cx('overplay-wrapper')}>
+                                                    <FontAwesomeIcon className={cx('overlay-icon')} icon={faPlay} />
                                                 </div>
                                             </div>
-
-                                            <p className={cx('song-name')}>{item.title}</p>
-                                            <p className={cx('song-author')}></p>
                                         </div>
+
+                                        <p className={cx('song-name')}>{item.title}</p>
+                                        <p className={cx('song-author')}></p>
                                     </div>
-                                ))}
-                        </div>
+                                </div>
+                            ))}
                     </div>
                 </div>
             </div>

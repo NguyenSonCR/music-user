@@ -18,6 +18,11 @@
     align-items: center;
 }
 
+.logo-wrapper.mobile {
+    width: 100%;
+    justify-content: flex-start;
+}
+
 .logo-wrapper-link {
     display: flex;
     align-items: center;
@@ -25,10 +30,12 @@
 }
 
 .logo {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .logo-img {
-    height: 40px;
+    height: 50px;
     padding: 0 8px;
     border-radius: 50%;
 }
@@ -41,6 +48,10 @@
     &:hover {
         color: var(--primary-color-hover);
     }
+}
+
+.mobile .logo-text {
+    margin-left: 22px;
 }
 
 .logo-text-title {
@@ -60,6 +71,14 @@
     align-items: center;
     justify-content: flex-end;
     background-color: var(--white-color);
+}
+
+.mobile.content {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 101;
 }
 
 .form {
