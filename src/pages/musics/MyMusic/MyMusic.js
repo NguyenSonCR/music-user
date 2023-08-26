@@ -20,6 +20,7 @@ import images from '~/assets/img';
 import Tippy from '@tippyjs/react';
 import useViewport from '~/hooks/useViewport';
 import config from '~/config';
+import NewPlaylistModel from '~/layouts/components/NewPlaylistModel/NewPlaylistModel';
 
 const cx = classNames.bind(styles);
 function MyMusic() {
@@ -101,25 +102,7 @@ function MyMusic() {
                 }}
             >
                 {/* model */}
-                {model && (
-                    <Model onSetModel={setModel}>
-                        <div className={cx('model-content')}>
-                            <p>Tạo playlist mới</p>
-                            <input
-                                name="playlist"
-                                type={'text'}
-                                placeholder="Nhập tên playlist"
-                                spellCheck={false}
-                                value={name}
-                                className={cx('model-input')}
-                                onChange={onChangeName}
-                            ></input>
-                            <Button type="text" primary onClick={() => handleAddNewPlaylist()}>
-                                Tạo mới
-                            </Button>
-                        </div>
-                    </Model>
-                )}
+                {model && <NewPlaylistModel setModel={setModel} />}
                 <div className={cx('playlist')}>
                     <div className={cx('playlist-header')}>
                         <span>Playlist</span>
@@ -137,7 +120,6 @@ function MyMusic() {
                                         <img alt="" src={images.song} className={cx('img-content')}></img>
                                         {
                                             <div className={cx('overlay')}>
-                                                {/* <Tippy content="Thêm mới playlist" placement="bottom"> */}
                                                 <div
                                                     className={cx('playlist-header-add-img')}
                                                     onClick={() => setModel(true)}
@@ -147,7 +129,6 @@ function MyMusic() {
                                                         className={cx('playlist-add-icon')}
                                                     />
                                                 </div>
-                                                {/* </Tippy> */}
                                             </div>
                                         }
                                     </div>
@@ -171,17 +152,101 @@ function MyMusic() {
                             {authState?.library && (
                                 <SongItemMobile key={10} songList={authState.library} removeModel={true} />
                             )}
-                            {songState?.myPlaylist?.album.map((playlist, index) => {
+                            {/* {songState?.myPlaylist?.album.map((playlist, index) => {
                                 return <SongItemMobile key={index} songList={playlist.song} myMusic={true} />;
-                            })}
+                            })} */}
 
-                            {authState?.library.length === 0 && songState?.myPlaylist?.album.length === 0 && (
-                                <div className={cx('no-song')}>
-                                    <p>Chưa có bài hát nào trong thư viện</p>
-                                    <Button to={config.routes.home} primary>
-                                        Thêm mới
-                                    </Button>
+                            {songState?.myPlaylist.loading ? (
+                                <div className={'song-loading'}>
+                                    <div className={cx('loading-song')}>
+                                        <div className={cx('loading-song-img')}></div>
+                                        <div className={cx('loading-song-content')}>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                        </div>
+                                    </div>
+                                    <div className={cx('loading-song')}>
+                                        <div className={cx('loading-song-img')}></div>
+                                        <div className={cx('loading-song-content')}>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                        </div>
+                                    </div>
+                                    <div className={cx('loading-song')}>
+                                        <div className={cx('loading-song-img')}></div>
+                                        <div className={cx('loading-song-content')}>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                        </div>
+                                    </div>
+                                    <div className={cx('loading-song')}>
+                                        <div className={cx('loading-song-img')}></div>
+                                        <div className={cx('loading-song-content')}>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                        </div>
+                                    </div>
+                                    <div className={cx('loading-song')}>
+                                        <div className={cx('loading-song-img')}></div>
+                                        <div className={cx('loading-song-content')}>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                        </div>
+                                    </div>
+                                    <div className={cx('loading-song')}>
+                                        <div className={cx('loading-song-img')}></div>
+                                        <div className={cx('loading-song-content')}>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                            <p
+                                                className={cx('single-loading-song')}
+                                                style={{ animation: 'loading 2s infinite' }}
+                                            ></p>
+                                        </div>
+                                    </div>
                                 </div>
+                            ) : (
+                                authState?.library.length === 0 &&
+                                songState?.myPlaylist?.album.length === 0 && (
+                                    <div className={cx('no-song')}>
+                                        <p>Chưa có bài hát nào trong thư viện</p>
+                                        <Button to={config.routes.home} primary>
+                                            Thêm mới
+                                        </Button>
+                                    </div>
+                                )
                             )}
                         </div>
                     </ul>
@@ -274,9 +339,9 @@ function MyMusic() {
                         </div>
                         <div className={cx('content-songs')}>
                             {authState?.library && <SongItem songList={authState.library} />}
-                            {songState?.myPlaylist?.album.map((playlist, index) => {
+                            {/* {songState?.myPlaylist?.album.map((playlist, index) => {
                                 return <SongItem key={index} songList={playlist.song} myMusic={true} />;
-                            })}
+                            })} */}
                         </div>
                     </ul>
                 </div>

@@ -33,7 +33,7 @@ function HomeMusic() {
                 }
             });
         } else {
-            setMobileSlider([...songState.homeMusic[0].items, ...songState.homeMusic[0].items]);
+            setMobileSlider([...songState?.homeMusic[0]?.items, ...songState?.homeMusic[0]?.items]);
         }
         // eslint-disable-next-line
     }, []);

@@ -9,8 +9,10 @@
     background-color: var(--background-color);
     align-items: center;
     justify-content: space-between;
-    padding: 12px 16px;
+    padding: 8px 24px;
     transition: height 0.3s ease-out;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .show {
@@ -66,7 +68,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    flex: 1;
+    flex: 1 1;
 }
 
 .info-img {
@@ -82,12 +84,12 @@
     color: var(--text-color);
     padding: 0 12px;
     line-height: 2rem;
+    width: 200px;
     overflow: hidden;
-    width: 220px;
 }
 .info-song__marquee {
     width: 100%;
-    padding: 0 8px;
+    margin: 0 8px;
     display: flex;
     overflow: hidden;
     white-space: nowrap;
@@ -120,11 +122,17 @@
     }
 }
 
+.icon-heart {
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
 .action {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1.8;
+    flex: 1.6 1;
+    padding: 0 12px;
     flex-direction: column;
 }
 
@@ -202,7 +210,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    flex: 1;
+    flex: 1 1;
 }
 
 .more-wrapper {
@@ -296,9 +304,10 @@
 }
 
 .lyrics-content-img {
+    border-radius: 8px;
     width: 400px;
     flex: 1;
-    padding: 24px;
+    transform: scale(0.8);
 }
 
 .lyrics-content-text {
@@ -344,9 +353,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 .progressBar {
-    width: 400px;
+    width: 100%;
 }
 
 .range span {

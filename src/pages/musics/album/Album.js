@@ -36,6 +36,12 @@ function Album() {
     }
     const [loading, setLoading] = useState(condition);
 
+    // scroll to top page
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        // eslint-disable-next-line
+    }, []);
+
     useEffect(() => {
         if (loading) {
             musicApi.getAlbumZing(id).then((response) => {

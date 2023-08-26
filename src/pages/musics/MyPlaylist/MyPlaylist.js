@@ -7,7 +7,6 @@ import Loading from '~/layouts/components/Loading';
 import musicApi from '~/api/music/musicApi';
 import images from '~/assets/img';
 import { HiOutlinePencil } from 'react-icons/hi';
-import { FiMoreHorizontal } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineClose } from 'react-icons/ai';
 import { RiMoreLine } from 'react-icons/ri';
@@ -15,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { addToast } from '~/slices/toastSlice';
 import { deletePlaylist, setSingleMyPlaylist } from '~/slices/songSlice';
+import { BsTrash } from 'react-icons/bs';
 import useViewport from '~/hooks/useViewport';
 
 const cx = classNames.bind(styles);
@@ -105,7 +105,13 @@ function MyPlaylist() {
                     </div>
                     <div className={cx('items-more')}>
                         <div className={cx('items-wrapper')}>
-                            <FiMoreHorizontal className={cx('items-more-icon')} />
+                            <BsTrash
+                                className={cx('items-more-icon')}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleDeletePlaylist(slug);
+                                }}
+                            />
                         </div>
                     </div>
                 </div>

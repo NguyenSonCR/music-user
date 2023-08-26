@@ -1,16 +1,26 @@
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearchResult } from '~/slices/songSlice';
+import { useState, useEffect } from 'react';
 import SongItemMobile from '~/layouts/components/SongItemMobile';
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 import SongConcept from '~/layouts/components/SongConcept';
 import { Link } from 'react-router-dom';
+import musicApi from '~/api/music/musicApi';
+import { useDebounce } from '~/hooks';
 
 const cx = classNames.bind(styles);
 
 function SearchMusic() {
     const songState = useSelector((state) => state.song);
     const [tab, setTab] = useState(1);
+    const dispatch = useDispatch();
+
+    // scroll to top page
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        // eslint-disable-next-line
+    }, []);
 
     const tab1 = (
         <div className={cx('tab1')}>
@@ -51,8 +61,55 @@ function SearchMusic() {
         </div>
     );
 
+    const [formValue, setFormValue] = useState('');
+    const debouncedValue = useDebounce(formValue, 500);
+
+    const handleEnter = (event) => {
+        if (event.key === 'Enter') {
+            if (!debouncedValue.trim()) {
+                // dispatch(setSearchResult(null));
+                return;
+            } else {
+                musicApi.searchSong(formValue).then((response) => {
+                    if (response.success) {
+                        dispatch(setSearchResult(response.result));
+                    }
+                });
+            }
+        }
+    };
+
+    const handleSearch = () => {
+        musicApi.searchSong(formValue).then((response) => {
+            if (response.success) {
+                dispatch(setSearchResult(response.result));
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (!debouncedValue.trim()) {
+            // dispatch(setSearchResult(null));
+            return;
+        } else {
+            handleSearch();
+        }
+        // eslint-disable-next-line
+    }, [debouncedValue]);
+
     return (
         <div className={cx('wrapper')}>
+            <div className={cx('search')}>
+                <input
+                    type="text"
+                    className={cx('search-input')}
+                    onChange={(e) => setFormValue(e.target.value)}
+                    value={formValue}
+                    placeholder="Tìm kiếm..."
+                    autoComplete="off"
+                    onKeyUp={handleEnter}
+                ></input>
+            </div>
             <div className={cx('tab')}>
                 <div className={cx('item')} onClick={() => setTab(1)}>
                     <p className={cx('text', tab === 1 && 'active')}>Bài hát</p>

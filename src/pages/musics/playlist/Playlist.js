@@ -36,9 +36,9 @@ function Playlist() {
                         onAnimationEnd={handleonAnimationEnd}
                     >
                         <div className={cx('header')}>
-                            <p className={cx('title')}>Danh sách đang phát</p>
+                            <span className={cx('title')}>Danh sách đang phát</span>
                         </div>
-                        <div className={cx('content')} onClick={(event) => event.stopPropagation()}>
+                        <div className={cx('content')}>
                             <div className={cx('content-header')}>
                                 <p className={cx('content-header-text')}>
                                     Từ Playlist

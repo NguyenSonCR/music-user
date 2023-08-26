@@ -177,6 +177,7 @@ function Register() {
                                 value={username}
                                 type={'text'}
                                 id="username"
+                                autoComplete="off"
                                 className={cx('input', usernameBlur && formErrors.username && 'error')}
                                 name={'username'}
                                 onChange={onChangeForm}
@@ -191,6 +192,7 @@ function Register() {
                                 value={fullName}
                                 spellCheck={false}
                                 type={'text'}
+                                autoComplete="off"
                                 id="fullName"
                                 className={cx('input', fullNameBlur && formErrors.fullName && 'error')}
                                 name={'fullName'}
@@ -210,9 +212,9 @@ function Register() {
                                     type={show.type}
                                     id="password"
                                     name={'password'}
+                                    autoComplete="off"
                                     placeholder="Nhập mật khẩu"
                                     onChange={onChangeForm}
-                                    autoComplete="true"
                                 ></input>
 
                                 <input
@@ -225,7 +227,7 @@ function Register() {
                                     name={'passwordConfirm'}
                                     placeholder="Nhập lại mật khẩu"
                                     onChange={onChangeForm}
-                                    autoComplete="true"
+                                    autoComplete="off"
                                 ></input>
                             </div>
                             <div className={cx('form-action')}>

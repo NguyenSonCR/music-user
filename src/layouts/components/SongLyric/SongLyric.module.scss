@@ -5,6 +5,11 @@
     line-height: 3.4rem;
 }
 
+.lyric {
+    overflow: auto;
+    height: 100%;
+}
+
 .line-text.mobile {
     text-align: center;
 }
@@ -16,18 +21,19 @@
 .wrapper {
     height: 100%;
     width: 100%;
-    overflow: auto;
     font-size: 1.8rem;
     font-weight: 300;
     color: var(--text-color);
     line-height: 3.4rem;
 }
 
-.lyric {
-    width: 100%;
-}
-
 // loading
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .item {
     width: 80%;
     height: 40px;
@@ -62,4 +68,5 @@
     font-weight: 400;
     color: var(--primary-color);
     line-height: 3.4rem;
+    text-align: center;
 }

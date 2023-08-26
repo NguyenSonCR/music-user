@@ -12,7 +12,7 @@ import { LOCAL_STORAGE_TOKEN_NAME } from '~/api/constants';
 
 const cx = classNames.bind(styles);
 
-function Menu({ children, items = [], visible, offset = [], hideOnClick = false }) {
+function Menu({ children, items = [], visible, offset = [], hideOnClick = false, mobile }) {
     const [history, setHistory] = useState([{ data: items }]);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -59,7 +59,7 @@ function Menu({ children, items = [], visible, offset = [], hideOnClick = false 
             visible={visible}
             hideOnClick={hideOnClick}
             render={(attrs) => (
-                <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
+                <div className={cx('menu-list', mobile && 'mobile')} tabIndex="-1" {...attrs}>
                     <PopperWrapper className={cx('menu-popper')}>
                         {history.length > 1 && (
                             <Header

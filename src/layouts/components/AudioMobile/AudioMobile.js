@@ -24,12 +24,14 @@ import SongLyric from '~/layouts/components/SongLyric';
 import { addToast } from '~/slices/toastSlice';
 import axios from 'axios';
 import SongItemMobile from '~/layouts/components/SongItemMobile';
+import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 function AudioSong() {
     // get store redux
     const songState = useSelector((state) => state.song);
     const toastState = useSelector((state) => state.toast);
+    const { pathname } = useLocation();
 
     const dispatch = useDispatch();
 
@@ -50,8 +52,6 @@ function AudioSong() {
 
     // setting step
     const step = 1;
-
-    const [tab, setTab] = useState(2);
 
     // useEffect
     // play and pause
@@ -231,12 +231,6 @@ function AudioSong() {
             dispatch(random(true));
         }
     };
-
-    // const handleClose = () => {
-    //     dispatch(pause());
-    //     dispatch(setPlaylist(false));
-    //     dispatch(mounted());
-    // };
 
     const convertTimeToNumber = (string) => {
         const minutes = string.slice(1, 2);
@@ -425,50 +419,133 @@ function AudioSong() {
     const [hide, setHide] = useState(false);
     const trackRunable = (progressBar?.current?.value / songState?.song?.duration) * 100;
 
-    // touch
+    // slider
+
     const initialX = useRef();
     const currentX = useRef();
+    const initialY = useRef();
+    const currentY = useRef();
+    const [active, setActive] = useState(1);
+    const sliderItemRef = useRef();
+    const [tranformValue, setTranformValue] = useState(0);
+    const sensitivity = 50;
 
-    const handleTouchStart = (e) => {
-        if (e.type === 'touchstart') {
-            initialX.current = e.touches[0].clientX;
-        } else {
-            initialX.current = e.clientX;
+    const [counter, setCounter] = useState(0);
+    useEffect(() => {
+        if (counter === 0) setTranformValue(-sliderItemRef?.current?.offsetWidth);
+        // eslint-disable-next-line
+    }, [sliderItemRef, small]);
+
+    const handleTouchStart = (event) => {
+        initialX.current = event.touches[0].clientX;
+        initialY.current = event.touches[0].clientY;
+    };
+
+    const handleTouchMove = (event) => {
+        currentX.current = event.touches[0].clientX;
+        currentY.current = event.touches[0].clientY;
+        let condition;
+        if (currentX.current - initialX.current < 0 && currentX.current - initialX.current < -sensitivity) {
+            condition = 'next';
+        }
+
+        if (currentX.current - initialX.current > 0 && currentX.current - initialX.current > sensitivity) {
+            condition = 'previous';
+        }
+
+        const x = currentX.current - initialX.current;
+        const y = currentY.current - initialY.current;
+        const tan = Math.abs(y / x);
+
+        const position = currentX.current - initialX.current;
+        if (tan < 1) {
+            if ((condition === 'previous' && active === 0) || (condition === 'next' && active === 2)) {
+                if (Math.abs(position) === 150) {
+                    setTranformValue(-(active * sliderItemRef?.current?.offsetWidth) + position);
+                }
+                return;
+            } else {
+                setTranformValue(-(active * sliderItemRef?.current?.offsetWidth) + position);
+            }
         }
     };
 
-    const [translate, setTranslate] = useState(null);
-
-    const handleTouchMove = (e) => {
-        if (e.type === 'touchmove') {
-            currentX.current = e.touches[0].clientX - initialX.current;
-        } else {
-            currentX.current = e.clientX - initialX.current;
+    const handleTouchEnd = () => {
+        let condition;
+        if (currentX.current - initialX.current < 0 && currentX.current - initialX.current < -sensitivity) {
+            condition = 'next';
         }
 
-        console.log(currentX.current);
+        if (currentX.current - initialX.current > 0 && currentX.current - initialX.current > sensitivity) {
+            condition = 'previous';
+        }
 
-        setTranslate(`${currentX.current}px`);
-        // if (currentX.current < -100) {
-        //     setTranslate('-50%');
-        //     return;
-        // }
+        if (condition === 'next' && active < 2) {
+            setTranformValue(-((active + 1) * sliderItemRef?.current?.offsetWidth));
+            const pre = active + 1;
+            setActive(pre);
+            return;
+        } else if (condition === 'previous' && active > 0) {
+            setTranformValue(-((active - 1) * sliderItemRef?.current?.offsetWidth));
+            const pre = active - 1;
+            setActive(pre);
+        } else {
+            const x = currentX.current - initialX.current;
+            const y = currentY.current - initialY.current;
+            const tan = Math.abs(y / x);
+            if (tan < 1) {
+                setTranformValue(-(active * sliderItemRef?.current?.offsetWidth));
+            }
+        }
     };
 
+    const height = window?.innerHeight;
+    const [transition, setTransition] = useState(false);
     return (
-        <div className={cx(!songState.mounted && 'show')}>
-            <div className={cx('wrapper', small && 'small', hide && 'hide')}>
+        <div
+            className={cx(
+                'container',
+                small && 'small',
+                pathname === ('/login' || '/register') && 'hiden',
+                hide && 'hide',
+            )}
+            style={{ top: small && height - 110 + 'px' }}
+        >
+            <div className={cx('wrapper', small && 'small')}>
                 <audio id="audio" src={songState.link} ref={audioPlayer} preload={'metadata'}></audio>
                 <div className={cx('body')}>
                     <div className={cx('header')}>
-                        <div className={cx('header-tab')}>
-                            <p className={cx('header-item', tab === 1 && 'active')} onClick={() => setTab(1)}>
+                        <div
+                            className={cx('header-tab')}
+                            onMouseDown={() => {
+                                setTransition(true);
+                            }}
+                        >
+                            <p
+                                className={cx('header-item', active === 0 && 'active')}
+                                onClick={() => {
+                                    setTranformValue(0);
+                                    setActive(0);
+                                }}
+                            >
                                 Playlist
                             </p>
-                            <p className={cx('header-item', tab === 2 && 'active')} onClick={() => setTab(2)}>
+                            <p
+                                className={cx('header-item', active === 1 && 'active')}
+                                onClick={() => {
+                                    setTranformValue(-sliderItemRef?.current?.offsetWidth);
+                                    setActive(1);
+                                }}
+                            >
                                 Bài hát
                             </p>
-                            <p className={cx('header-item', tab === 3 && 'active')} onClick={() => setTab(3)}>
+                            <p
+                                className={cx('header-item', active === 2 && 'active')}
+                                onClick={() => {
+                                    setTranformValue(-sliderItemRef?.current?.offsetWidth * 2);
+                                    setActive(2);
+                                }}
+                            >
                                 Lời bài hát
                             </p>
                         </div>
@@ -476,6 +553,7 @@ function AudioSong() {
                             className={cx('header-icon')}
                             onClick={() => {
                                 setHide(true);
+                                setCounter((pre) => pre + 1);
                                 setTimeout(() => {
                                     setSmall(true);
                                 }, 200);
@@ -485,14 +563,28 @@ function AudioSong() {
                         </div>
                     </div>
 
-                    <div className={cx('slider-container')}>
+                    <div className={cx('slider')}>
                         <div
-                            className={cx('slider')}
-                            style={{ transform: translate && `translateX(${translate})` }}
-                            onTouchStart={(e) => handleTouchStart(e)}
-                            onTouchMove={(e) => handleTouchMove(e)}
+                            className={cx('slider-container')}
+                            onTouchStart={(event) => {
+                                handleTouchStart(event);
+                                setTransition(false);
+                            }}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={() => {
+                                setTransition(true);
+                                handleTouchEnd();
+                            }}
+                            onMouseDown={() => setTransition(false)}
+                            onMouseUp={() => setTransition(true)}
+                            style={{
+                                transform: `translateX(${tranformValue}px)`,
+                                transitionProperty: `transform`,
+                                transitionTimingFunction: 'ease-in',
+                                transitionDuration: transition ? '0.2s' : '0s',
+                            }}
                         >
-                            <div className={cx('slider-item')}>
+                            <div className={cx('slider-item')} ref={sliderItemRef}>
                                 <div className={cx('playlist')}>
                                     <div className={cx('playlist-header')}>
                                         <p>
@@ -503,19 +595,21 @@ function AudioSong() {
                                         </p>
                                     </div>
                                     <div className={cx('playlist-body')}>
-                                        {songState.albumPlaying && (
+                                        {songState.albumPlaying.playlist && (
                                             <SongItemMobile songList={songState.albumPlaying.playlist} />
                                         )}
                                     </div>
                                 </div>
                             </div>
                             <div className={cx('slider-item')}>
-                                <img
-                                    ref={imgRef}
-                                    className={cx('song-img')}
-                                    src={songState.song.thumbnailM.replace('w240_r1x1_jpeg', 'w480_r1x1_webp')}
-                                    alt=""
-                                ></img>
+                                <div className={cx('img')}>
+                                    <img
+                                        ref={imgRef}
+                                        className={cx('song-img')}
+                                        src={songState.song.thumbnailM.replace('w240_r1x1_jpeg', 'w480_r1x1_webp')}
+                                        alt=""
+                                    ></img>
+                                </div>
                                 <div className={cx('song')}>
                                     <div className={cx('song-info')}>
                                         <div className={cx('info-icon')}>
@@ -533,57 +627,15 @@ function AudioSong() {
                             </div>
                             <div className={cx('slider-item')}>
                                 <div className={cx('lyric')}>
-                                    <SongLyric currentTime={audioPlayer?.current?.currentTime} loading={loading} />
+                                    <SongLyric
+                                        currentTime={audioPlayer?.current?.currentTime}
+                                        loading={loading}
+                                        activeTab={active}
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {/* <div className={cx('body-img')}>
-                        <img
-                            ref={imgRef}
-                            className={cx('song-img', tab === 2 && 'active')}
-                            src={songState.song.thumbnailM.replace('w240_r1x1_jpeg', 'w480_r1x1_webp')}
-                            alt=""
-                        ></img>
-                    </div>
-
-                    {tab === 2 ? (
-                        <div className={cx('song')}>
-                            <div className={cx('song-info')}>
-                                <div className={cx('info-icon')}>
-                                    <FontAwesomeIcon icon={faEllipsis} />
-                                </div>
-                                <div className={cx('info-song')}>
-                                    <p>{songState.song && songState.song.title}</p>
-                                    <p>{songState.song && songState.song.artistNames}</p>
-                                </div>
-                                <div className={cx('info-icon')}>
-                                    <FontAwesomeIcon icon={faHeart} />
-                                </div>
-                            </div>
-                        </div>
-                    ) : tab === 1 ? (
-                        <div className={cx('playlist')}>
-                            <div className={cx('playlist-header')}>
-                                <p>
-                                    Đang phát từ playlist:{' '}
-                                    <span className={cx('text-album')}>
-                                        {songState.albumPlaying && songState.albumPlaying.title}
-                                    </span>
-                                </p>
-                            </div>
-                            <div className={cx('playlist-body')}>
-                                {songState.albumPlaying && (
-                                    <SongItemMobile songList={songState.albumPlaying.playlist} primary={true} />
-                                )}
-                            </div>
-                        </div>
-                    ) : (
-                        <div className={cx('lyric')}>
-                            <SongLyric currentTime={audioPlayer?.current?.currentTime} loading={loading} />
-                        </div>
-                    )} */}
-
                     <div className={cx('footer')}>
                         <div className={cx('range')}>
                             <span>{calculateTime(currentTime)}</span>
@@ -657,6 +709,10 @@ function AudioSong() {
                         </div>
                     </div>
                 </div>
+                <div className={cx('img-position')}>
+                    <img alt="" src={songState?.song?.thumbnailM}></img>
+                </div>
+                <div className={cx('div-position')}></div>
             </div>
 
             <div
@@ -725,23 +781,6 @@ function AudioSong() {
                         >
                             <RxTrackNext className={cx('button-icon')} />
                         </div>
-                        {/* <div
-                                className={cx('button-close')}
-                                onClick={() => {
-                                    dispatch(setPlaylist(false));
-                                    setSmall(false);
-                                }}
-                            >
-                                <img className={cx('responsive-icon')} src={images.enlarge} alt=""></img>
-                            </div> */}
-                        {/* <div
-                                className={cx('button-close')}
-                                onClick={() => {
-                                    handleClose();
-                                }}
-                            >
-                                <CloseIcon className={cx('responsive-icon')} />
-                            </div> */}
                     </div>
                 </div>
             </div>

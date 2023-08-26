@@ -13,6 +13,7 @@ import { useDebounce } from '~/hooks';
 import PlaylistItem from '~/pages/musics/playlist/PlaylistItem';
 import config from '~/config';
 import useViewport from '~/hooks/useViewport';
+import { CiSearch } from 'react-icons/ci';
 
 const cx = classNames.bind(styles);
 
@@ -219,7 +220,7 @@ function Search({ visible }) {
                         {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
                         <div className={cx('split')}></div>
                         <div className={cx('search-btn')} onClick={handleClickSearch}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} className={cx('search-btn-icon')} />
+                            <CiSearch className={cx('search-btn-icon')} />
                         </div>
                     </div>
                 </Tippy>

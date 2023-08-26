@@ -23,6 +23,12 @@ function Genres() {
         // eslint-disable-next-line
     }, []);
 
+    // scroll to top page
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        // eslint-disable-next-line
+    }, []);
+
     return (
         <div className={cx('wrapper', isMobile && 'mobile')}>
             {genres ? (

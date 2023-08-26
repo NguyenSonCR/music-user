@@ -9,6 +9,8 @@ import Toast from './layouts/components/Toast';
 import ProtectedRoute from '~/routing/ProtectedRoute';
 import useViewport from './hooks/useViewport';
 import AudioMobile from '~/layouts/components/AudioMobile';
+import ModelSong from '~/layouts/components/ModelSong';
+import ModelPlaylist from '~/layouts/components/ModelPlaylist';
 
 function App() {
     const songState = useSelector((state) => state.song);
@@ -66,6 +68,8 @@ function App() {
 
                 {songState.song && !isMobile && <Audio container={container} />}
                 {songState.song && isMobile && <AudioMobile />}
+                {songState.modelSong && <ModelSong />}
+                {songState.modelPlaylist && <ModelPlaylist />}
                 {<Playlist />}
                 <Toast />
             </div>

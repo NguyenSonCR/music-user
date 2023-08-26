@@ -19,7 +19,12 @@ const initialState = {
     mounted: false,
     top100: null,
     album: null,
-    albumPlaying: null,
+    albumPlaying: {
+        playlist: null,
+        title: '',
+        storeNextSong: [],
+        nextSongId: 0,
+    },
     searchResult: null,
     playlist: false,
     homeMusic: null,
@@ -33,6 +38,9 @@ const initialState = {
     },
     singleMyPlaylist: null,
     popup: false,
+    songValueModel: null,
+    modelSong: false,
+    modelPlaylist: false,
 };
 
 export const songSlice = createSlice({
@@ -93,8 +101,36 @@ export const songSlice = createSlice({
         },
 
         setAlbumPlaying: (state, action) => {
-            state.albumPlaying = action.payload;
+            state.albumPlaying = {
+                ...state.albumPlaying,
+                playlist: action.payload.playlist,
+                title: action.payload.title,
+            };
         },
+
+        addNextSongToAlbumPlaying: (state, action) => {
+            state.albumPlaying.playlist.splice(action.payload.idSong, 0, action.payload.song);
+            state.albumPlaying = {
+                playlist: state.albumPlaying.playlist,
+                title: state.albumPlaying.title,
+                storeNextSong: [...state.albumPlaying.storeNextSong, action.payload.song],
+                nextSongId: state.albumPlaying.nextSongId + 1,
+            };
+        },
+
+        removeNextSongFromAlbumPlaying: (state, action) => {
+            state.albumPlaying.playlist.splice(action.payload.idSong, 1);
+            state.albumPlaying = {
+                ...state.albumPlaying,
+                playlist: state.albumPlaying.playlist,
+                title: state.albumPlaying.title,
+                storeNextSong: state.albumPlaying.storeNextSong.filter(
+                    (item) =>
+                        item.encodeId !== action.payload.encodeId && item.nextSongId !== action.payload.song.nextSongId,
+                ),
+            };
+        },
+
         setSearchResult: (state, action) => {
             state.searchResult = action.payload;
         },
@@ -174,6 +210,18 @@ export const songSlice = createSlice({
         deletePlaylist: (state, action) => {
             state.myPlaylist.album = state.myPlaylist.album.filter((item) => item.slug !== action.payload);
         },
+
+        setSongValueModel: (state, action) => {
+            state.songValueModel = action.payload;
+        },
+
+        setModelSong: (state, action) => {
+            state.modelSong = action.payload;
+        },
+
+        setModelPlaylist: (state, action) => {
+            state.modelPlaylist = action.payload;
+        },
     },
 });
 
@@ -206,6 +254,11 @@ export const {
     addSongPlaylist,
     setSingleMyPlaylist,
     deleteSongMyPlaylist,
+    setSongValueModel,
+    setModelSong,
+    setModelPlaylist,
+    addNextSongToAlbumPlaying,
+    removeNextSongFromAlbumPlaying,
 } = songSlice.actions;
 
 export default songSlice.reducer;

@@ -13,6 +13,8 @@ const authApi = {
     loadUser: () => {
         if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
             setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]);
+        } else {
+            setAuthToken();
         }
         const url = '/users';
         return axiosJWT.get(url);

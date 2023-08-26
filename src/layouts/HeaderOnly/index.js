@@ -1,13 +1,14 @@
 import Header from '~/layouts/components/Header';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { mounted } from '~/slices/songSlice';
 
 function HeaderOnly({ children }) {
-    const songState = useSelector((state) => state.song);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(mounted());
+
+        // eslint-disable-next-line
     }, []);
     return (
         <div>

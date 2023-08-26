@@ -4,7 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 import config from '~/config';
 import styles from './NaviMobi.module.scss';
 import { ReactComponent as IconKinds } from '~/assets/icon/kinds.svg';
-import { CiStar, CiMusicNote1, CiUser } from 'react-icons/ci';
+import { ReactComponent as IconMusic } from '~/assets/icon/music.svg';
+import { CiStar, CiUser } from 'react-icons/ci';
 
 const cx = classNames.bind(styles);
 function NaviMobi() {
@@ -16,10 +17,16 @@ function NaviMobi() {
 
     useEffect(() => {
         if (pathname === '/') {
-            handleClick(config.routes.music);
+            setActive(config.routes.music);
         }
-        if (pathname === '/music/mymusic') {
-            handleClick(config.routes.myMusic);
+        if (pathname.search('/music/mymusic') >= 0) {
+            setActive(config.routes.myMusic);
+        } else if (pathname.search('/music/top100') >= 0) {
+            setActive(config.routes.top100);
+        } else if (pathname.search('/music/genres') >= 0) {
+            setActive(config.routes.genresMusic);
+        } else if (pathname.search('/music') >= 0) {
+            setActive(config.routes.music);
         }
     }, [pathname]);
 
@@ -43,7 +50,7 @@ function NaviMobi() {
                     handleClick(config.routes.music);
                 }}
             >
-                <CiMusicNote1 className={cx('navigate-img')} />
+                <IconMusic className={cx('navigate-img')} />
                 <p className={cx('navigate-text')}>Khám phá</p>
             </Link>
             <Link

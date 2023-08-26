@@ -5,12 +5,11 @@ import { useSelector } from 'react-redux';
 import useViewport from '~/hooks/useViewport';
 
 const cx = classNames.bind(styles);
-function SongLyric({ currentTime, loading }) {
+function SongLyric({ currentTime, loading, activeTab, laptop }) {
     const [active, setActive] = useState(null);
     const songState = useSelector((state) => state.song);
     const [touch, setTouch] = useState(false);
     const width = useViewport().width;
-
     // // scroll
     const refs = useRef([]);
     const handleClickScroll = (active) => {
@@ -21,11 +20,14 @@ function SongLyric({ currentTime, loading }) {
     };
 
     useEffect(() => {
-        if (songState.songLyric.lyric && !touch && active !== null) {
-            handleClickScroll(active);
-        } else {
-            handleClickScroll(0);
+        if (activeTab === 2 || laptop) {
+            if (songState.songLyric.lyric && !touch && active !== null) {
+                handleClickScroll(active);
+            } else {
+                handleClickScroll(0);
+            }
         }
+
         // eslint-disable-next-line
     }, [active]);
 

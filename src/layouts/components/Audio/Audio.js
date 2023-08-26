@@ -2,7 +2,8 @@ import classNames from 'classnames/bind';
 import styles from './Audio.module.scss';
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faEllipsis, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { addSongLibrary, removeSongLibrary } from '~/slices/authSlice';
 import Tippy from '@tippyjs/react';
 import { ReactComponent as CloseIcon } from '~/assets/icon/close.svg';
 import { useEffect, useRef, useState } from 'react';
@@ -25,6 +26,7 @@ import {
 import images from '~/assets/img';
 import { TbMicrophone2 } from 'react-icons/tb';
 import { BsVolumeUp, BsVolumeMute } from 'react-icons/bs';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { RxTrackNext, RxTrackPrevious, RxPause, RxPlay, RxShuffle, RxLoop, RxListBullet } from 'react-icons/rx';
 import { FaSpinner } from 'react-icons/fa';
 import musicApi from '~/api/music/musicApi';
@@ -37,7 +39,7 @@ function AudioSong({ container }) {
     // get store redux
     const songState = useSelector((state) => state.song);
     const toastState = useSelector((state) => state.toast);
-
+    const authState = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     // state
@@ -468,6 +470,39 @@ function AudioSong({ container }) {
         el.style.transform = 'translate3d(' + xPos + 'px, ' + yPos + 'px, 0)';
     }
 
+    // add and remove library
+    const handleAddLibrary = async (item) => {
+        dispatch(addSongLibrary(item));
+        try {
+            const response = await musicApi.addSongLibrary(item);
+            dispatch(
+                addToast({
+                    id: toastState.toastList.length + 1,
+                    content: response.message,
+                    type: 'success',
+                }),
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleRemoveLibrary = async (item) => {
+        dispatch(removeSongLibrary(item.encodeId));
+        try {
+            const response = await musicApi.removeSongLibrary({ id: item.encodeId });
+            dispatch(
+                addToast({
+                    id: toastState.toastList.length + 1,
+                    content: response.message,
+                    type: 'success',
+                }),
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div className={cx(!songState.mounted && 'show')}>
             <div className={cx('wrapper', pageLyrics && 'page_lyrics', small && 'small')}>
@@ -543,12 +578,20 @@ function AudioSong({ container }) {
 
                             <p className={cx('info-song__text')}>{songState.song && songState.song.artistNames}</p>
                         </div>
-                        <div className={cx('info-icon')}>
-                            <FontAwesomeIcon icon={faHeart} />
-                        </div>
-                        <div className={cx('info-icon')}>
-                            <FontAwesomeIcon icon={faEllipsis} />
-                        </div>
+
+                        {authState?.library?.find((song) => song.encodeId === songState.song.encodeId) ? (
+                            <Tippy content="Xóa bài hát khỏi thư viện">
+                                <div className={cx('info-icon')} onClick={() => handleRemoveLibrary(songState.song)}>
+                                    <AiFillHeart className={cx('icon-heart')} />
+                                </div>
+                            </Tippy>
+                        ) : (
+                            <Tippy content="Thêm vào thư viện">
+                                <div className={cx('info-icon')} onClick={() => handleAddLibrary(songState.song)}>
+                                    <AiOutlineHeart className={cx('icon-heart')} />
+                                </div>
+                            </Tippy>
+                        )}
                     </div>
                 )}
                 {pageLyrics && (
@@ -571,7 +614,11 @@ function AudioSong({ container }) {
                                 alt=""
                             ></img>
                             <div className={cx('lyrics-content-text')}>
-                                <SongLyric currentTime={audioPlayer.current.currentTime} loading={loading} />
+                                <SongLyric
+                                    currentTime={audioPlayer.current.currentTime}
+                                    loading={loading}
+                                    laptop={true}
+                                />
                             </div>
                         </div>
                     </div>
@@ -634,15 +681,17 @@ function AudioSong({ container }) {
                 </div>
                 {!pageLyrics && (
                     <div className={cx('more')}>
-                        <div
-                            className={cx('more-wrapper')}
-                            onClick={() => {
-                                dispatch(setPlaylist(false));
-                                dispatch(setLyricPage(true));
-                            }}
-                        >
-                            <TbMicrophone2 className={cx('more-icon')} />
-                        </div>
+                        <Tippy content="Phát cùng lời bài hát">
+                            <div
+                                className={cx('more-wrapper')}
+                                onClick={() => {
+                                    dispatch(setPlaylist(false));
+                                    dispatch(setLyricPage(true));
+                                }}
+                            >
+                                <TbMicrophone2 className={cx('more-icon')} />
+                            </div>
+                        </Tippy>
 
                         {songState.muted === true || songState.volume === 0 ? (
                             <div

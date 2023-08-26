@@ -3,11 +3,21 @@ import styles from './Model.module.scss';
 import { TfiClose } from 'react-icons/tfi';
 
 const cx = classNames.bind(styles);
-function Model({ children, onSetModel }) {
+function Model({ children, setModel }) {
     return (
-        <div className={cx('model')}>
-            <div className={cx('container')}>
-                <div className={cx('btn-close')} onClick={() => onSetModel(false)}>
+        <div
+            className={cx('model')}
+            onClick={() => {
+                setModel(false);
+            }}
+        >
+            <div className={cx('container')} onClick={(e) => e.stopPropagation()}>
+                <div
+                    className={cx('btn-close')}
+                    onClick={() => {
+                        setModel(false);
+                    }}
+                >
                     <TfiClose className={cx('icon')} />
                 </div>
                 {children}
