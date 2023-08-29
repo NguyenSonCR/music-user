@@ -6,6 +6,7 @@ import styles from './NaviMobi.module.scss';
 import { ReactComponent as IconKinds } from '~/assets/icon/kinds.svg';
 import { ReactComponent as IconMusic } from '~/assets/icon/music.svg';
 import { CiStar, CiUser } from 'react-icons/ci';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 function NaviMobi() {
@@ -14,6 +15,8 @@ function NaviMobi() {
     const handleClick = (data) => {
         setActive(data);
     };
+
+    const navigateState = useSelector((state) => state.navigation);
 
     useEffect(() => {
         if (pathname === '/') {
@@ -31,7 +34,7 @@ function NaviMobi() {
     }, [pathname]);
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', navigateState.display && 'show')}>
             <Link
                 to={config.routes.genresMusic}
                 className={cx('list', active === config.routes.genresMusic && 'active')}

@@ -356,7 +356,46 @@
     width: 100%;
 }
 .progressBar {
+    position: relative;
     width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.progressBar::-webkit-slider-runnable-track {
+    height: 6px;
+    background-color: var(--white-color);
+    border-radius: 99px;
+}
+
+.progressBar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    margin-top: -3px;
+}
+
+.input-container {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 4px;
+}
+
+.input-track {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: var(--primary-color);
+    height: 6px;
+    border-top-left-radius: 99px;
+    border-bottom-left-radius: 99px;
 }
 
 .range span {

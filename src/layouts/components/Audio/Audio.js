@@ -185,6 +185,9 @@ function AudioSong({ container }) {
         }
     };
 
+    // track
+    const trackRunable = (progressBar?.current?.value / songState?.song?.duration) * 100;
+
     // volume
     useEffect(() => {
         if (songState.muted) {
@@ -383,8 +386,10 @@ function AudioSong({ container }) {
     const onChangePlaylist = () => {
         if (songState.playlist) {
             dispatch(setPlaylist(false));
+            document.body.style.overflow = '';
         } else {
             dispatch(setPlaylist(true));
+            document.body.style.overflow = 'hidden';
         }
     };
 
@@ -666,16 +671,25 @@ function AudioSong({ container }) {
                     </div>
                     <div className={cx('range')}>
                         <span>{calculateTime(currentTime)}</span>
-                        <input
-                            name="range"
-                            ref={progressBar}
-                            className={cx('progressBar')}
-                            type={'range'}
-                            defaultValue={0}
-                            onChange={changeRange}
-                            onMouseDown={() => setSeeking(true)}
-                            onMouseUp={() => setSeeking(false)}
-                        ></input>
+                        <div className={cx('input-container')}>
+                            <input
+                                name="range"
+                                ref={progressBar}
+                                className={cx('progressBar')}
+                                type={'range'}
+                                defaultValue={0}
+                                onChange={changeRange}
+                                onMouseDown={() => setSeeking(true)}
+                                onMouseUp={() => setSeeking(false)}
+                            ></input>
+                            <div
+                                className={cx('input-track')}
+                                style={{
+                                    width: trackRunable < 50 ? trackRunable + 1 + '%' : trackRunable - 1 + '%',
+                                }}
+                            ></div>
+                        </div>
+
                         <span>{songState.song && calculateTime(songState.song.duration)}</span>
                     </div>
                 </div>

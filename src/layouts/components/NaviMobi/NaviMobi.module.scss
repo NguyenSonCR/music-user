@@ -1,6 +1,6 @@
 .wrapper {
     border-top: 1px solid #ccc;
-    display: flex;
+    display: none;
     position: fixed;
     right: 0;
     left: 0;
@@ -12,6 +12,10 @@
     align-items: center;
     justify-content: space-evenly;
     z-index: 10;
+}
+
+.wrapper.show {
+    display: flex;
 }
 
 .list {

@@ -2,7 +2,9 @@
     position: fixed;
     top: 60px;
     right: 20px;
-    z-index: 102;
+    z-index: 120;
+    max-height: 60vh;
+    overflow: hidden;
 }
 
 @keyframes slideInLeft {

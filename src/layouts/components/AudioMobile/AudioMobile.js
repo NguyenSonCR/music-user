@@ -25,6 +25,7 @@ import { addToast } from '~/slices/toastSlice';
 import axios from 'axios';
 import SongItemMobile from '~/layouts/components/SongItemMobile';
 import { useLocation } from 'react-router-dom';
+import { setShow } from '~/slices/navigateSlice';
 
 const cx = classNames.bind(styles);
 function AudioSong() {
@@ -36,7 +37,7 @@ function AudioSong() {
     const dispatch = useDispatch();
 
     // state
-    const [small, setSmall] = useState(true);
+
     const [currentTime, setCurrentTime] = useState(0);
     const [seeking, setSeeking] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -410,17 +411,11 @@ function AudioSong() {
         // eslint-disable-next-line
     }, [imgSmallRef.current, songState.song]);
 
-    if (small) {
-        document.body.classList.remove('model');
-    } else {
-        document.body.classList.add('model');
-    }
-
     const [hide, setHide] = useState(false);
+    const [small, setSmall] = useState(true);
     const trackRunable = (progressBar?.current?.value / songState?.song?.duration) * 100;
 
     // slider
-
     const initialX = useRef();
     const currentX = useRef();
     const initialY = useRef();
@@ -441,16 +436,17 @@ function AudioSong() {
         initialY.current = event.touches[0].clientY;
     };
 
+    const condition = useRef();
     const handleTouchMove = (event) => {
         currentX.current = event.touches[0].clientX;
         currentY.current = event.touches[0].clientY;
-        let condition;
-        if (currentX.current - initialX.current < 0 && currentX.current - initialX.current < -sensitivity) {
-            condition = 'next';
+
+        if (currentX.current - initialX.current < 0 && Math.abs(currentX.current - initialX.current) > sensitivity) {
+            condition.current = 'next';
         }
 
         if (currentX.current - initialX.current > 0 && currentX.current - initialX.current > sensitivity) {
-            condition = 'previous';
+            condition.current = 'previous';
         }
 
         const x = currentX.current - initialX.current;
@@ -459,7 +455,7 @@ function AudioSong() {
 
         const position = currentX.current - initialX.current;
         if (tan < 1) {
-            if ((condition === 'previous' && active === 0) || (condition === 'next' && active === 2)) {
+            if ((condition.current === 'previous' && active === 0) || (condition.current === 'next' && active === 2)) {
                 if (Math.abs(position) === 150) {
                     setTranformValue(-(active * sliderItemRef?.current?.offsetWidth) + position);
                 }
@@ -470,22 +466,13 @@ function AudioSong() {
         }
     };
 
-    const handleTouchEnd = () => {
-        let condition;
-        if (currentX.current - initialX.current < 0 && currentX.current - initialX.current < -sensitivity) {
-            condition = 'next';
-        }
-
-        if (currentX.current - initialX.current > 0 && currentX.current - initialX.current > sensitivity) {
-            condition = 'previous';
-        }
-
-        if (condition === 'next' && active < 2) {
+    const handleTouchEnd = (event) => {
+        if (condition.current === 'next' && active < 2) {
             setTranformValue(-((active + 1) * sliderItemRef?.current?.offsetWidth));
             const pre = active + 1;
             setActive(pre);
             return;
-        } else if (condition === 'previous' && active > 0) {
+        } else if (condition.current === 'previous' && active > 0) {
             setTranformValue(-((active - 1) * sliderItemRef?.current?.offsetWidth));
             const pre = active - 1;
             setActive(pre);
@@ -499,19 +486,15 @@ function AudioSong() {
         }
     };
 
-    const height = window?.innerHeight;
     const [transition, setTransition] = useState(false);
+    const [background, setBackground] = useState(false);
+    const handleScroll = () => {
+        document.body.style.overflow = 'auto';
+    };
+
     return (
-        <div
-            className={cx(
-                'container',
-                small && 'small',
-                pathname === ('/login' || '/register') && 'hiden',
-                hide && 'hide',
-            )}
-            style={{ top: small && height - 110 + 'px' }}
-        >
-            <div className={cx('wrapper', small && 'small')}>
+        <div className={cx(background && 'container', pathname === ('/login' || '/register') && 'hiden')}>
+            <div className={cx('wrapper', !small && 'show', hide && 'hide')}>
                 <audio id="audio" src={songState.link} ref={audioPlayer} preload={'metadata'}></audio>
                 <div className={cx('body')}>
                     <div className={cx('header')}>
@@ -526,6 +509,7 @@ function AudioSong() {
                                 onClick={() => {
                                     setTranformValue(0);
                                     setActive(0);
+                                    setCounter((pre) => pre + 1);
                                 }}
                             >
                                 Playlist
@@ -535,6 +519,7 @@ function AudioSong() {
                                 onClick={() => {
                                     setTranformValue(-sliderItemRef?.current?.offsetWidth);
                                     setActive(1);
+                                    setCounter((pre) => pre + 1);
                                 }}
                             >
                                 Bài hát
@@ -544,6 +529,7 @@ function AudioSong() {
                                 onClick={() => {
                                     setTranformValue(-sliderItemRef?.current?.offsetWidth * 2);
                                     setActive(2);
+                                    setCounter((pre) => pre + 1);
                                 }}
                             >
                                 Lời bài hát
@@ -552,11 +538,15 @@ function AudioSong() {
                         <div
                             className={cx('header-icon')}
                             onClick={() => {
-                                setHide(true);
                                 setCounter((pre) => pre + 1);
+                                setHide(true);
+                                dispatch(setShow(true));
+                                setBackground(false);
                                 setTimeout(() => {
                                     setSmall(true);
+                                    setHide(false);
                                 }, 200);
+                                handleScroll();
                             }}
                         >
                             <FontAwesomeIcon icon={faChevronDown} />
@@ -570,10 +560,11 @@ function AudioSong() {
                                 handleTouchStart(event);
                                 setTransition(false);
                             }}
-                            onTouchMove={handleTouchMove}
-                            onTouchEnd={() => {
+                            onTouchMove={(event) => handleTouchMove(event)}
+                            onTouchEnd={(event) => {
                                 setTransition(true);
-                                handleTouchEnd();
+                                handleTouchEnd(event);
+                                condition.current = '';
                             }}
                             onMouseDown={() => setTransition(false)}
                             onMouseUp={() => setTransition(true)}
@@ -716,13 +707,17 @@ function AudioSong() {
             </div>
 
             <div
-                className={cx('small-audio', small && 'show')}
-                // ref={smallAudioRef}
+                className={cx('small-audio', small && 'show', pathname === '/login' && 'hiden')}
                 onClick={() => {
                     dispatch(setPlaylist(false));
                     setSmall(false);
-                    setHide(false);
+                    dispatch(setShow(false));
+                    setTimeout(() => {
+                        setBackground(true);
+                        document.body.style.overflow = 'hidden';
+                    }, [200]);
                 }}
+                style={{ display: pathname === '/register' && 'none' }}
             >
                 <div className="slidecontainer">
                     <input

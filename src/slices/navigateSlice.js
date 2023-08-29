@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     code: '',
     history: 0,
+    display: true,
 };
 
 export const navigateSlice = createSlice({
@@ -16,9 +17,13 @@ export const navigateSlice = createSlice({
         setHistoryStore: (state, action) => {
             state.history = action.payload;
         },
+
+        setShow: (state, action) => {
+            state.display = action.payload;
+        },
     },
 });
 
-export const { setCode, setHistoryStore } = navigateSlice.actions;
+export const { setCode, setHistoryStore, setShow } = navigateSlice.actions;
 
 export default navigateSlice.reducer;

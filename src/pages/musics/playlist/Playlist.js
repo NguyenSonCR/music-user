@@ -28,6 +28,7 @@ function Playlist() {
                     className={cx('model')}
                     onClick={() => {
                         dispatch(setPlaylist(false));
+                        document.body.style.overflow = '';
                     }}
                 >
                     <div

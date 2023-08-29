@@ -34,18 +34,25 @@ function ModelSong() {
     const navigate = useNavigate();
 
     const handleAddLibrary = async (item) => {
-        dispatch(addSongLibrary(item));
-        try {
-            const response = await musicApi.addSongLibrary(item);
-            dispatch(
-                addToast({
-                    id: toastState.toastList.length + 1,
-                    content: response.message,
-                    type: 'success',
-                }),
-            );
-        } catch (error) {
-            console.log(error);
+        if (!authState.isAuthenticated) {
+            navigate(config.routes.login);
+            dispatch(setModelSong(false));
+            dispatch(setSongValueModel(null));
+            return;
+        } else {
+            dispatch(addSongLibrary(item));
+            try {
+                const response = await musicApi.addSongLibrary(item);
+                dispatch(
+                    addToast({
+                        id: toastState.toastList.length + 1,
+                        content: response.message,
+                        type: 'success',
+                    }),
+                );
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 

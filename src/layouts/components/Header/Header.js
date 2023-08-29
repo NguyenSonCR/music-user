@@ -130,7 +130,7 @@ function Header() {
                         </Link>
                         {pathname === '/' ? (
                             <Link to={config.routes.home} className={cx('logo-text')}>
-                                Nơi vươn tầm ước mơ
+                                Music for life
                             </Link>
                         ) : (
                             <div className={cx('navigate')} onClick={() => navigate(-1)}>
