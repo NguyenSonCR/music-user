@@ -78,7 +78,7 @@ function PlaylistItem({ songList, playlist, title, scroll }) {
     const handleClickScroll = (id) => {
         refs[id]?.current?.scrollIntoView({
             behavior: 'smooth',
-            block: 'center',
+            block: 'nearest',
         });
     };
 

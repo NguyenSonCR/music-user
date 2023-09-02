@@ -33,6 +33,7 @@ import musicApi from '~/api/music/musicApi';
 import SongLyric from '~/layouts/components/SongLyric';
 import { addToast } from '~/slices/toastSlice';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 function AudioSong({ container }) {
@@ -508,8 +509,11 @@ function AudioSong({ container }) {
         }
     };
 
+    const { pathname } = useLocation();
     return (
-        <div className={cx(!songState.mounted && 'show')}>
+        <div
+            className={cx((!songState.mounted || pathname === '/login') && 'show', pathname === '/register' && 'show')}
+        >
             <div className={cx('wrapper', pageLyrics && 'page_lyrics', small && 'small')}>
                 {songState.song && (
                     <audio
@@ -531,6 +535,7 @@ function AudioSong({ container }) {
                                     dispatch(setPlaylist(false));
                                 }
                                 setSmall(true);
+                                document.body.style.overflow = '';
                             }}
                         >
                             <img alt="" className={cx('responsive-icon')} src={images.shrink}></img>
@@ -606,7 +611,13 @@ function AudioSong({ container }) {
                             <div className={cx('lyrics-title')}>
                                 <p>Lời bài hát</p>
                             </div>
-                            <div className={cx('lyrics-icon')} onClick={() => dispatch(setLyricPage(false))}>
+                            <div
+                                className={cx('lyrics-icon')}
+                                onClick={() => {
+                                    document.body.style.overflow = '';
+                                    dispatch(setLyricPage(false));
+                                }}
+                            >
                                 <div className={cx('button-list')}>
                                     <FontAwesomeIcon icon={faChevronDown} />
                                 </div>

@@ -1,30 +1,32 @@
 .model {
     position: fixed;
-    top: 0;
+    top: 66px;
     left: 0;
     right: 0;
     bottom: 90px;
     background-color: rgba(0, 0, 0, 0.1);
     z-index: 10;
-    overflow: hidden;
 }
 
 .wrapper {
     position: absolute;
-    top: 60px;
+    top: 0;
     right: 0;
     bottom: 0;
     width: 300px;
     border: 1px solid var(--border-color);
     background-color: var(--background-color);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    box-shadow: 0 -2px 8px 6px rgba(217, 210, 249, 0.5);
 }
 
 .header {
-    margin-top: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 48px;
+    height: 10%;
+    padding: 8px 0;
 }
 
 .title {
@@ -38,11 +40,9 @@
 }
 
 .content {
-    margin-top: 4px;
-    max-height: 75vh;
-    overflow: auto;
-    width: 100%;
-    padding-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    max-height: 90%;
 }
 
 .content-header {

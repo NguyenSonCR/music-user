@@ -160,9 +160,6 @@
     align-items: center;
     border-radius: 99px;
     margin: 0 4px;
-    &:hover {
-        background-color: rgb(241, 239, 246);
-    }
 }
 
 .action-wrapper-lyrics {
@@ -183,6 +180,9 @@
     font-weight: 400;
     color: var(--text-color);
     padding: 0 8px;
+    &:active {
+        color: var(--primary-color);
+    }
 }
 
 .icon-heart {

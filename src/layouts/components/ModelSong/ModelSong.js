@@ -171,16 +171,10 @@ function ModelSong() {
                             <p className={cx('item-text')}>Xóa bài hát khỏi playlist</p>
                         </li>
                     )}
-                    <li className={cx('content-item')}>
+                    {/* <li className={cx('content-item')}>
                         <AiOutlineCloudDownload className={cx('item-icon')}></AiOutlineCloudDownload>
-                        <a
-                            download
-                            href="https://noloce.com/static/media/logo.f9b3e986993b76e25e76.png"
-                            className={cx('item-text')}
-                        >
-                            Tải về
-                        </a>
-                    </li>
+                        <p className={cx('item-text')}>Tải về</p>
+                    </li> */}
                     {authState?.library?.find((item) => item.encodeId === song.encodeId) ? (
                         <li
                             className={cx('content-item')}

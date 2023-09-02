@@ -1,6 +1,6 @@
 .wrapper {
     height: 66px;
-    box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.05);
+    // box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.05);
     width: 100%;
     z-index: 99;
     background-color: var(--white-color);
@@ -8,6 +8,11 @@
     right: 0;
     left: 0;
     top: 0;
+    box-shadow: 0 -2px 8px 6px rgba(217, 210, 249, 0.3);
+}
+
+.wrapper.mobile {
+    box-shadow: 0 -2px 8px 6px rgba(217, 210, 249, 0.3);
 }
 
 .header {

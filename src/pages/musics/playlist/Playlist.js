@@ -33,7 +33,7 @@ function Playlist() {
                 >
                     <div
                         className={cx('wrapper')}
-                        style={{ animation: `${songState.playlist ? 'fadeIn' : 'fadeOut'} 0.6s ease-in forwards` }}
+                        style={{ animation: `${songState.playlist ? 'fadeIn' : 'fadeOut'} 0.2s ease-in forwards` }}
                         onAnimationEnd={handleonAnimationEnd}
                     >
                         <div className={cx('header')}>
@@ -48,14 +48,13 @@ function Playlist() {
                                     </span>
                                 </p>
                             </div>
-                            <div className={cx('container')}>
-                                {songState.albumPlaying && (
-                                    <PlaylistItem
-                                        songList={songState.albumPlaying.playlist}
-                                        title={songState.albumPlaying.title}
-                                    />
-                                )}
-                            </div>
+
+                            {songState.albumPlaying && (
+                                <PlaylistItem
+                                    songList={songState.albumPlaying.playlist}
+                                    title={songState.albumPlaying.title}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

@@ -423,7 +423,7 @@ function AudioSong() {
     const [active, setActive] = useState(1);
     const sliderItemRef = useRef();
     const [tranformValue, setTranformValue] = useState(0);
-    const sensitivity = 50;
+    const sensitivity = 70;
 
     const [counter, setCounter] = useState(0);
     useEffect(() => {
@@ -456,7 +456,7 @@ function AudioSong() {
         const position = currentX.current - initialX.current;
         if (tan < 1) {
             if ((condition.current === 'previous' && active === 0) || (condition.current === 'next' && active === 2)) {
-                if (Math.abs(position) === 150) {
+                if (Math.abs(position) === sensitivity) {
                     setTranformValue(-(active * sliderItemRef?.current?.offsetWidth) + position);
                 }
                 return;
@@ -572,7 +572,7 @@ function AudioSong() {
                                 transform: `translateX(${tranformValue}px)`,
                                 transitionProperty: `transform`,
                                 transitionTimingFunction: 'ease-in',
-                                transitionDuration: transition ? '0.2s' : '0s',
+                                transitionDuration: transition ? '0.1s' : '0s',
                             }}
                         >
                             <div className={cx('slider-item')} ref={sliderItemRef}>
@@ -587,7 +587,10 @@ function AudioSong() {
                                     </div>
                                     <div className={cx('playlist-body')}>
                                         {songState.albumPlaying.playlist && (
-                                            <SongItemMobile songList={songState.albumPlaying.playlist} />
+                                            <SongItemMobile
+                                                songList={songState.albumPlaying.playlist}
+                                                active={active}
+                                            />
                                         )}
                                     </div>
                                 </div>

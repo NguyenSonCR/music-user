@@ -23,7 +23,7 @@ import { setMyPlaylist } from '~/slices/songSlice';
 
 const cx = classNames.bind(styles);
 
-function SongItemMobile({ songList, title, myMusic, primary, noScroll }) {
+function SongItemMobile({ songList, title, myMusic, primary, noScroll, active }) {
     const dispatch = useDispatch();
     const songState = useSelector((state) => state.song);
     const authState = useSelector((state) => state.auth);
@@ -132,12 +132,12 @@ function SongItemMobile({ songList, title, myMusic, primary, noScroll }) {
     const handleClickScroll = (id) => {
         refs[id]?.current?.scrollIntoView({
             behavior: 'smooth',
-            block: 'center',
+            block: 'nearest',
         });
     };
 
     useEffect(() => {
-        if (songState.song && noScroll) {
+        if ((songState.song && noScroll) || (songState.song && active)) {
             return;
         } else if (songState.song) {
             handleClickScroll(songState.song.encodeId);

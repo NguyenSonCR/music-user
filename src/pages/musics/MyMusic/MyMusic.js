@@ -106,7 +106,12 @@ function MyMusic() {
                 <div className={cx('playlist')}>
                     <div className={cx('playlist-header')}>
                         <span>Playlist</span>
-                        <div className={cx('playlist-header-add')} onClick={() => setModel(true)}>
+                        <div
+                            className={cx('playlist-header-add')}
+                            onClick={() => {
+                                setModel(true);
+                            }}
+                        >
                             <FontAwesomeIcon icon={faPlus} className={cx('playlist-add-icon')} />
                         </div>
                     </div>
@@ -122,7 +127,9 @@ function MyMusic() {
                                             <div className={cx('overlay')}>
                                                 <div
                                                     className={cx('playlist-header-add-img')}
-                                                    onClick={() => setModel(true)}
+                                                    onClick={() => {
+                                                        setModel(true);
+                                                    }}
                                                 >
                                                     <FontAwesomeIcon
                                                         icon={faPlus}
