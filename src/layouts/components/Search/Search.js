@@ -131,7 +131,7 @@ function Search({ visible }) {
                                     <div className={cx('result-content')}>
                                         {searchResult && (
                                             <div className={cx('list')}>
-                                                {searchResult.artists && (
+                                                {searchResult?.artists && (
                                                     <Link
                                                         to={`/music/artist/${searchResult.artists[0].alias}`}
                                                         className={cx('artist')}
@@ -150,7 +150,7 @@ function Search({ visible }) {
                                                         </div>
                                                     </Link>
                                                 )}
-                                                {searchResult.playlists && (
+                                                {searchResult?.playlists && (
                                                     <Link
                                                         to={`/music/album/${searchResult.playlists[0].encodeId}`}
                                                         className={cx('playlist')}
@@ -172,8 +172,8 @@ function Search({ visible }) {
                                                 )}
 
                                                 <PlaylistItem
-                                                    playlist={searchResult.songs}
-                                                    songList={searchResult.songs.slice(0, 3)}
+                                                    playlist={searchResult?.songs}
+                                                    songList={searchResult?.songs?.slice(0, 3)}
                                                 />
                                             </div>
                                         )}
@@ -255,7 +255,7 @@ function Search({ visible }) {
                                 <div className={cx('result-content')}>
                                     {searchResult && (
                                         <div className={cx('list')}>
-                                            {searchResult.artists && (
+                                            {searchResult?.artists && (
                                                 <Link
                                                     to={`/music/artist/${searchResult.artists[0].alias}`}
                                                     className={cx('artist')}
@@ -271,7 +271,7 @@ function Search({ visible }) {
                                                     </div>
                                                 </Link>
                                             )}
-                                            {searchResult.playlists && (
+                                            {searchResult?.playlists && (
                                                 <Link
                                                     to={`/music/album/${searchResult.playlists[0].encodeId}`}
                                                     className={cx('playlist')}
@@ -290,8 +290,8 @@ function Search({ visible }) {
                                             )}
 
                                             <PlaylistItem
-                                                playlist={searchResult.songs}
-                                                songList={searchResult.songs.slice(0, 3)}
+                                                playlist={searchResult?.songs}
+                                                songList={searchResult?.songs?.slice(0, 3)}
                                             />
                                         </div>
                                     )}

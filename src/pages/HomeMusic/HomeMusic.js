@@ -42,6 +42,7 @@ function HomeMusic() {
     const navigate = useNavigate();
 
     const handleChooseSlide = async (item) => {
+        console.log(item);
         if (item.type === 4) {
             navigate(`/music/album/${item.encodeId}`);
         }
@@ -124,7 +125,7 @@ function HomeMusic() {
                             className={cx('slider')}
                         >
                             {mobileSlider.map((item, index) => (
-                                <SwiperSlide key={index}>
+                                <SwiperSlide key={index} onClick={() => handleChooseSlide(item)}>
                                     <img alt="" src={item.banner} className={cx('img')}></img>
                                 </SwiperSlide>
                             ))}
@@ -212,7 +213,11 @@ function HomeMusic() {
                                 className={cx('slider')}
                             >
                                 {mobileSlider.map((item, index) => (
-                                    <SwiperSlide key={index} onClick={handleChooseSlide} className={cx('swiper-item')}>
+                                    <SwiperSlide
+                                        key={index}
+                                        className={cx('swiper-item')}
+                                        onClick={() => handleChooseSlide(item)}
+                                    >
                                         <img alt="" src={item.banner} className={cx('img')}></img>
                                     </SwiperSlide>
                                 ))}

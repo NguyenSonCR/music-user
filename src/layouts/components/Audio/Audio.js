@@ -516,15 +516,7 @@ function AudioSong({ container }) {
         >
             <div className={cx('wrapper', pageLyrics && 'page_lyrics', small && 'small')}>
                 {songState.song && (
-                    <audio
-                        id="audio"
-                        src={songState.link}
-                        ref={audioPlayer}
-                        preload={'metadata'}
-                        onEnded={() => {
-                            console.log('end song');
-                        }}
-                    ></audio>
+                    <audio id="audio" src={songState.link} ref={audioPlayer} preload={'metadata'}></audio>
                 )}
                 {!pageLyrics && (
                     <div className={cx('responsive')}>

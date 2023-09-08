@@ -25,13 +25,13 @@ function SearchMusic() {
     const tab1 = (
         <div className={cx('tab1')}>
             <p className={cx('tab1-text')}>Bài hát</p>
-            {songState.searchResult && <SongItemMobile songList={songState.searchResult.songs} />}
+            {songState.searchResult && <SongItemMobile songList={songState.searchResult?.songs} />}
         </div>
     );
 
     const tab2 = (
         <div className={cx('tab2')}>
-            {songState.searchResult && <SongConcept title="Album/Playlist" data={songState.searchResult.playlists} />}
+            {songState.searchResult && <SongConcept title="Album/Playlist" data={songState.searchResult?.playlists} />}
         </div>
     );
 
@@ -39,7 +39,7 @@ function SearchMusic() {
         <div className={cx('tab3')}>
             <div className={cx('title')}>Nghệ sĩ</div>
             <div className={cx(['row'], 'tab3-content')}>
-                {songState?.searchResult?.artists.map((item, index) => (
+                {songState?.searchResult?.artists?.map((item, index) => (
                     <Link
                         key={index}
                         className={cx('tab2-item', ['col', 'l-2-4', 'm-4', 'c-6'])}

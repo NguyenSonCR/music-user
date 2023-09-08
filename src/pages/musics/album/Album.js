@@ -15,7 +15,7 @@ import useViewport from '~/hooks/useViewport';
 import axios from 'axios';
 import { addToast } from '~/slices/toastSlice';
 
-import { loadSong, play, setSongLyric, setLink, setVipSong, pause } from '~/slices/songSlice';
+import { loadSong, play, setSongLyric, setLink, setVipSong, pause, setAlbumPlaying } from '~/slices/songSlice';
 
 const cx = classNames.bind(styles);
 
@@ -63,8 +63,7 @@ function Album() {
     };
 
     const handleSelectSong = (item) => {
-        console.log(1);
-        // dispatch(setAlbumPlaying({ playlist: songState.album.song.items, title: songState.album.title }));
+        dispatch(setAlbumPlaying({ playlist: songState.album.song.items, title: songState.album.title }));
         dispatch(play());
         dispatch(loadSong(item));
         const linkPromise = musicApi.getSong(item.encodeId);
